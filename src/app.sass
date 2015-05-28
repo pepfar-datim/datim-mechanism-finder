@@ -1,0 +1,110 @@
+@import 'normalize'
+@import 'compass'
+@import 'susy'
+
+.ng-hide
+  display: none
+
+.app
+  padding-top: 75px
+  width: 90%
+  margin: 0 auto
+
+
+input[type=search]
+  font-size: 2rem
+  -webkit-appearance: none
+  -moz-appearance: none
+  border-radius: 2rem
+  border: 1px solid #CCC
+  color: #333
+  padding: .25rem 1rem
+  width: 100%
+  outline: none
+
+  &:focus
+    border-color: orange
+
+.found-statuses
+  @include span(1 of 1)
+
+.datim-info,
+.factsinfo-info
+  @include container()
+
+  h2
+    font-size: 1.2rem
+    color: #CCC
+
+  th, td
+    position: relative
+    padding: .2rem 0.4rem
+    white-space: nowrap
+
+  .longtext-field
+    position: relative
+    max-width: 15rem
+    overflow: hidden
+
+    &:after
+      content: ''
+      display: block
+      position: absolute
+      top: 0
+      right: 0
+      width: 2rem
+      bottom: 0
+
+  .odd :after
+    @include background-image(linear-gradient(left,  rgba(254,254,254,0) 0%,rgba(254,254,254,1) 100%))
+
+  .even :after
+    @include background-image(linear-gradient(left,  rgba(244,244,244,0) 0%,rgba(244,244,244,1) 100%))
+
+.factsinfo-data-table
+  overflow-x: auto
+
+
+.factsinfo-info
+  tr
+    border-bottom: 1px solid #CCC
+
+.datim-info-blocks
+  @include container()
+
+  div
+    @include span(1 of 3)
+
+  div:last-child
+    @include span(1 of 3 last)
+
+  th, td
+    padding: .25rem
+
+
+table
+  width: 100%
+
+th
+  text-align: left
+  font-weight: normal
+  color: #CCC
+  font-size: .8rem
+
+.even
+  background-color: #F5F5F5
+
+.odd
+  background-color: #FEFEFE
+
+.fa-check
+  color: darkgreen
+
+.fa-times
+  color: darkred
+
+h2, h3
+  margin: 0
+
+h2
+  margin-top: 1rem

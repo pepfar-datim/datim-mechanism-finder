@@ -1,0 +1,36 @@
+{
+  "name": "where-is-my-mechanism",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mark Polak",
+  "license": "BSD",
+  "jspm": {
+    "directories": {},
+    "configFile": "src/config.js",
+    "dependencies": {
+      "angular": "npm:angular@^1.4.0",
+      "jquery": "github:components/jquery@^2.1.4",
+      "systemjs/plugin-json.git": "github:systemjs/plugin-json@^0.1.0"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.1.13",
+      "babel-runtime": "npm:babel-runtime@^5.1.13",
+      "core-js": "npm:core-js@^0.9.4"
+    }
+  },
+  "devDependencies": {
+    "del": "^1.2.0",
+    "gulp": "^3.8.11",
+    "gulp-dev": "0.0.2",
+    "gulp-ruby-sass": "^1.0.5",
+    "gulp-zip": "^3.0.2",
+    "systemjs-builder": "^0.10.6"
+  },
+  "dependencies": {
+    "babel": "^5.4.7"
+  }
+}
