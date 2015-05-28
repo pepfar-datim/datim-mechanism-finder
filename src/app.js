@@ -52,7 +52,7 @@ class WhereIsMyMechController {
 
         this.location.search('query', this.myMechanismSearchString);
 
-        this.api.get('//sync.datim.org:1777/?search=' + this.myMechanismSearchString)
+        this.api.get('//sync.datim.org/?search=' + this.myMechanismSearchString)
             .then(this.buildResultList.bind(this))
             .then(this.setResultList.bind(this))
             .then((resultList) => {

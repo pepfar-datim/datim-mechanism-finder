@@ -24,7 +24,7 @@ gulp.task('zip', function () {
     var zip = require('gulp-zip');
 
     return gulp.src(['./build/**'])
-        .pipe(zip('where-is-my-mechanism.zip'))
+        .pipe(zip('mechanism-finder.zip'))
         .pipe(gulp.dest('.'));
 });
 
