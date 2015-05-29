@@ -15,7 +15,7 @@
 
     <div class="app">
     <input name="myMechanismSearch" type="search" ng-model="wimm.myMechanismSearchString" ng-model-options="{debounce: 500}"
-           placeholder="Search for mechanism in datim and the FACTS info synchronisation log">
+           placeholder="Search for mechanism in DATIM and the FACTS info synchronization log">
     <div class="found-statuses ng-hide" ng-show="wimm.myMechanismSearchString.length">
         <p>
             Trying to find mechanism with mechanism code: <span ng-bind="wimm.datimMechanismCodeToSearch"></span>
@@ -56,7 +56,13 @@
         </div>
     </div>
     <div class="factsinfo-info ng-hide" ng-show="wimm.foundInFactsInfo">
-        <h2>FACTS Info to DATIM synchronisation logs</h2>
+        <h2>FACTS Info to DATIM synchronization history last 90 days</h2>
+        <p>
+            A row in the table represents a mechanism as imported from FACTS info. The mechanism ids could be the same
+            but the import could have pulled the same mechanism for different years. You can easily filter on a year by
+            combining the results of the the "Reporting Cycle" and the "HQ ID". To search for mechanism 9999 in 2015 you
+            could enter "2015 COP,9999".
+        </p>
         <div class="factsinfo-data-table">
             <table class="ng-hide" ng-show="wimm.resultList.length">
                 <thead>
