@@ -7,89 +7,27 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link href="css/app.css" rel="stylesheet" type="text/css" />
+    <link href="css/select.css" rel="stylesheet" type="text/css" />
 </head>
-<body ng-controller="WhereIsMyMechController as wimm">
+<body>
 
-    <d2-header-bar></d2-header-bar>
+<d2-header-bar></d2-header-bar>
 
-    <div class="app">
-    <input name="myMechanismSearch" type="search" ng-model="wimm.myMechanismSearchString" ng-model-options="{debounce: 500}"
-           placeholder="Search for mechanism in DATIM and the FACTS info synchronization log">
-    <div class="found-statuses ng-hide" ng-show="wimm.myMechanismSearchString.length">
-        <p>
-            Trying to find mechanism with mechanism code: <span ng-bind="wimm.datimMechanismCodeToSearch"></span>
-        </p>
-        <span><i class="fa fa-check" ng-class="{'fa-check': wimm.foundInDatim, 'fa-times': !wimm.foundInDatim}"></i>Found in DATIM</span>
-        <span><i class="fa fa-check" ng-class="{'fa-check': wimm.foundInFactsInfo, 'fa-times': !wimm.foundInFactsInfo}"></i>Found in FACTS Info</span>
+<div class="app" ng-controller="AppController as app">
+    <div class="finders">
+        <div ng-class="{'active': app.route == '/mechanism-finder'}"><a href="#/mechanism-finder">Mechanism</a></div>
+        <div ng-class="{'active': app.route == '/partner-finder'}"><a href="#/partner-finder">Partner</a></div>
     </div>
+    <ng-view></ng-view>
+</div>
 
-    <div class="datim-info ng-hide" ng-show="wimm.foundInDatim">
-        <h2>DATIM info</h2>
-        <div class="datim-info-blocks">
-            <div class="mechanism">
-                <h3>Mechanism</h3>
-                <table>
-                    <tr class="odd"><th>Name</th><td ng-bind="wimm.datimInfo.mechanism.displayName"></td></tr>
-                    <tr class="even"><th>Code</th><td ng-bind="wimm.datimInfo.mechanism.code"></td></tr>
-                    <tr class="odd"><th>Country</th><td ng-bind="wimm.datimInfo.mechanism.organisationUnits[0].name"></td></tr>
-                    <tr class="even"><th>Start</th><td ng-bind="wimm.datimInfo.mechanism.startDate"></td></tr>
-                    <tr class="odd"><th>End</th><td ng-bind="wimm.datimInfo.mechanism.endDate"></td></tr>
-                </table>
-            </div>
-            <div class="agency">
-                <h3>Agency</h3>
-                <table>
-                    <tr class="odd"><th>Name</th><td ng-bind="wimm.datimInfo.agency.name"></td></tr>
-                    <tr class="even"><th>Code</th><td ng-bind="wimm.datimInfo.agency.code"></td></tr>
-                    <tr class="odd"><th>Created</th><td ng-bind="wimm.datimInfo.agency.created"></td></tr>
-                </table>
-            </div>
-            <div class="partner">
-                <h3>Partner</h3>
-                <table>
-                    <tr class="odd"><th>Name</th><td ng-bind="wimm.datimInfo.partner.name"></td></tr>
-                    <tr class="even"><th>Code</th><td ng-bind="wimm.datimInfo.partner.code"></td></tr>
-                    <tr class="odd"><th>Created</th><td ng-bind="wimm.datimInfo.partner.created"></td></tr>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="factsinfo-info ng-hide" ng-show="wimm.foundInFactsInfo">
-        <h2>FACTS Info to DATIM synchronization history last 90 days</h2>
-        <p>
-            A row in the table represents a mechanism as imported from FACTS info. The mechanism ids could be the same
-            but the import could have pulled the same mechanism for different years. You can easily filter on a year by
-            combining the results of the the "Reporting Cycle" and the "HQ ID". To search for mechanism 9999 in 2015 you
-            could enter "2015 COP,9999".
-        </p>
-        <div class="factsinfo-data-table">
-            <table class="ng-hide" ng-show="wimm.resultList.length">
-                <thead>
-                <tr>
-                    <th ng-repeat="header in wimm.headers" ng-bind="::header"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="line in wimm.resultList track by $index"
-                    ng-class-odd="'odd'"
-                    ng-class-even="'even'">
-                    <td ng-repeat="value in line track by $index" ng-class="{'longtext-field': $index === 6 || $index === 7 || $index === 8}" ng-click="wimm.setSearchString(value)" title="{{value}}">
-                        <span ng-show="!$last" ng-bind="value"></span>
-                        <span ng-show="$last"><i class="fa" ng-class="{'fa-check': value === 1, 'fa-times': value === 0}"></i></span>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    </div>
+<script src="jspm_packages/system.js"></script>
+<script src="config.js"></script>
 
-    <script src="jspm_packages/system.js"></script>
-    <script src="config.js"></script>
-
-    <script>
-        System.bundles['wimm'] = ['app'];
-        System.import('app');
-    </script>
+<script>
+    System.bundles['wimm'] = ['app'];
+    System.import('app');
+</script>
 </body>

@@ -3,6 +3,7 @@
 const BUILD_DIR = 'build';
 
 const gulp = require('gulp');
+const runSequence = require('run-sequence');
 
 gulp.task('clean', function (cb) {
     var del = require('del');
@@ -10,14 +11,16 @@ gulp.task('clean', function (cb) {
     del(BUILD_DIR, cb);
 });
 
+gulp.task('build', function (cb) {
+    runSequence('clean', ['app', 'pack', 'deps', 'dep-css', 'sass'], cb);
+});
+
 gulp.task('build-deploy', function (cb) {
-    var runSequence = require('run-sequence');
-    runSequence('clean', ['app', 'pack', 'deps', 'sass'], 'deploy');
+    runSequence('build', 'deploy', cb);
 });
 
 gulp.task('build-prod', function (cb) {
-    var runSequence = require('run-sequence');
-    runSequence('clean', ['app', 'pack', 'deps', 'sass'], 'zip');
+    runSequence('build', 'zip', cb);
 });
 
 gulp.task('zip', function () {
@@ -36,7 +39,7 @@ gulp.task('pack', function (cb) {
         .then(function () {
             builder.config({
                 paths: {
-                    'json': './src/*.js',
+                    "*.controller": "./src/*.controller.js",
                     'app': './src/*.js'
                 },
                 meta: {
@@ -53,6 +56,18 @@ gulp.task('pack', function (cb) {
                     console.log(error);
                 });
         });
+});
+
+gulp.task('dep-css', function () {
+    var flatten = require('gulp-flatten');
+
+    return gulp.src([
+        './jspm_packages/github/angular-ui/*/dist/select.css'
+        ])
+        .pipe(flatten())
+        .pipe(gulp.dest(
+           [BUILD_DIR, 'css'].join('/'))
+        );
 });
 
 gulp.task('app', function () {
@@ -82,5 +97,5 @@ gulp.task('sass', function () {
 
 gulp.task('deploy', function () {
     return gulp.src(['./build/**'])
-        .pipe(gulp.dest('/Users/markadm/Projects/dhis/DHIS2_HOME/apps/where-is-my-mechanism'));
+        .pipe(gulp.dest('/Users/markadm/Projects/dhis/DHIS2_HOME/apps/mechanism-finder'));
 });
