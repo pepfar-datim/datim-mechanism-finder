@@ -67,7 +67,7 @@ angular.module('whereIsMyMech', ['ngRoute', 'ui.select'])
             $httpProvider.interceptors.push(($q) => {
                 return {
                     request(config) {
-                        if (config.url && /^https:\/\/test.datim.org/.test(config.url)) {
+                        if (config.url && /^https:\/\/dev.datim.org/.test(config.url)) {
                             config.headers = Object.assign({}, config.headers, developmentHeaders);
                         }
                         return config;
@@ -110,7 +110,7 @@ angular.module('whereIsMyMech', ['ngRoute', 'ui.select'])
 initMenu()
     .then((manifest) => {
         angular.module('whereIsMyMech')
-            .constant('DHIS_BASE_URL', process.env.NODE_ENV === 'production' ? manifest.activities.dhis.href : 'https://test.datim.org');
+            .constant('DHIS_BASE_URL', process.env.NODE_ENV === 'production' ? manifest.activities.dhis.href : 'https://dev.datim.org');
     })
     .then(() => angular.bootstrap(document.querySelector('html'), ['whereIsMyMech']))
     .catch((e) => window.console.log('Failed to bootstrap the app', e));
