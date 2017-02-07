@@ -96,7 +96,7 @@ export default class MechanismFinderController {
             return this.$q.resolve({ data: { categoryOptions: [] } });
         }
 
-        return this.api.get([this.DHIS_BASE_URL, 'api', 'categoryOptions.json?filter=code:eq:' + this.datimMechanismCodeToSearch + '&fields=:all,categoryOptionGroups[:owner],organisationUnit[:owner]'].join('/'))
+        return this.api.get([this.DHIS_BASE_URL, 'api', 'categoryOptions.json?filter=code:eq:' + this.datimMechanismCodeToSearch + '&fields=:all,categoryOptionGroups[id,name,code,created],organisationUnits[id,name]'].join('/'))
             .then(response => response.data.categoryOptions[0])
             .then(categoryOption => {
                 if (categoryOption) {

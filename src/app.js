@@ -16,7 +16,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 function preloadOrganisationUnitsAndPartners($http, DHIS_BASE_URL, objectCache) {
-    console.log('running the run');
     const partnersRequest = $http.get([
         DHIS_BASE_URL,
         'api',
@@ -26,7 +25,6 @@ function preloadOrganisationUnitsAndPartners($http, DHIS_BASE_URL, objectCache) 
     .then((response) => response.data)
     .then((data) => data && data.categoryOptionGroups)
     .then(data => data.sort((a, b) => (a.name > b.name) ? 1 : (a.name < b.name) ? -1 : 0 ))
-    .then(units => (console.log(units), units))
     .catch(() => []);
 
     const organisationUnitsUrl = [DHIS_BASE_URL, 'api', 'organisationUnits.json?fields=name,id&level=3&paging=false'].join('/');
