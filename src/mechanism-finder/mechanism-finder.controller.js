@@ -1,7 +1,5 @@
-'use strict';
-
-class MechanismFinderController {
-    constructor($http, $scope, $location) {
+export default class MechanismFinderController {
+    constructor($http, $scope, $location, $q, DHIS_BASE_URL) {
         this.headerMap = {
             Date: 'Date',
             OperatingUnit: 'OU',
@@ -20,8 +18,10 @@ class MechanismFinderController {
 
         this.myMechanismSearchString = '';
         this.api = $http;
+        this.$q = $q;
         this.datimInfo = {};
         this.location = $location;
+        this.DHIS_BASE_URL = DHIS_BASE_URL;
 
         $scope.$watch(() => this.myMechanismSearchString, (newVal, oldVal) => {
             if (newVal !== oldVal) {
@@ -69,7 +69,7 @@ class MechanismFinderController {
             headers: headers,
             lines: lines
                 .map(line => {
-                    line[line.length - 1] =  parseInt(line[line.length - 1], 10);
+                    line[line.length - 1] = parseInt(line[line.length - 1], 10);
                     return line;
                 })
         };
@@ -86,24 +86,17 @@ class MechanismFinderController {
 
     loadDATIMMechanism(firstRow) {
         if (firstRow) {
+            // Grab the HQ id from the result
             this.datimMechanismCodeToSearch = firstRow[4];
         } else {
             this.datimMechanismCodeToSearch = this.myMechanismSearchString;
         }
 
-        this.api.get('manifest.webapp', {cache: true})
-            .then(response => {
-                return response.data;
-            })
-            .then(manifest => {
-                return manifest.activities.dhis.href;
-            })
-            .then(apiUrl => {
-                if (this.datimMechanismCodeToSearch) {
-                    return this.api.get([apiUrl, 'api', 'categoryOptions.json?filter=code:eq:' + this.datimMechanismCodeToSearch + '&fields=:all'].join('/'));
-                }
-                return Promise.resolve({data: {categoryOptions: []}});
-            })
+        if (!this.datimMechanismCodeToSearch) {
+            return this.$q.resolve({ data: { categoryOptions: [] } });
+        }
+
+        return this.api.get([this.DHIS_BASE_URL, 'api', 'categoryOptions.json?filter=code:eq:' + this.datimMechanismCodeToSearch + '&fields=:all,categoryOptionGroups[:owner],organisationUnit[:owner]'].join('/'))
             .then(response => response.data.categoryOptions[0])
             .then(categoryOption => {
                 if (categoryOption) {
@@ -112,12 +105,14 @@ class MechanismFinderController {
                 }
 
                 if (categoryOption && categoryOption.categoryOptionGroups.length > 0) {
-                    this.datimInfo.agency = categoryOption.categoryOptionGroups.filter(categoryOptionGroup => /^Agency_.+/.test(categoryOptionGroup.code)).reduce((current) => current);
-                    this.datimInfo.partner = categoryOption.categoryOptionGroups.filter(categoryOptionGroup => /^Partner_.+/.test(categoryOptionGroup.code)).reduce((current) => current);
+                    this.datimInfo.agency = categoryOption.categoryOptionGroups
+                        .filter(categoryOptionGroup => /^Agency_.+/.test(categoryOptionGroup.code))
+                        .reduce((undefined, current) => current, undefined);
+                    this.datimInfo.partner = categoryOption.categoryOptionGroups
+                        .filter(categoryOptionGroup => /^Partner_.+/.test(categoryOptionGroup.code))
+                        .reduce((undefined, current) => current, undefined);
                 }
             });
 
     }
 }
-
-export default MechanismFinderController;

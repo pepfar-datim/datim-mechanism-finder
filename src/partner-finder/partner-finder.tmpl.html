@@ -1,7 +1,7 @@
 <div class="partner-finder">
 
     <div class="partner-finder-select-boxes">
-    <ui-select ng-model="partnerFinder.selectedOrganisationUnit" on-select="partnerFinder.searchPartners()">
+    <ui-select ng-model="partnerFinder.selectedOrganisationUnit" on-select="partnerFinder.changedOrganisationUnit()">
         <ui-select-match placeholder="Select a organisation unit">{{$select.selected.name}}</ui-select-match>
         <ui-select-choices repeat="orgUnit in partnerFinder.organisationUnits | filter: $select.search">
             <div ng-bind="orgUnit.name"></div>
@@ -21,7 +21,7 @@
             <li><span class="color-block inactive"></span>Inactive</li>
         </ul>
         <div ng-repeat="mechanism in partnerFinder.foundMechanisms" ng-class="{active: partnerFinder.isMechanismActive(mechanism)}">
-            <h3><span ng-bind="mechanism.mechanism"></span><a ng-href="#/mechanism-finder?query={{partnerFinder.getCodeFromName(mechanism.mechanism);}}"><i class="fa fa-search"></i></a></h3>
+            <h3><span ng-bind="mechanism.mechanism"></span><a ng-href="#!/mechanism-finder?query={{partnerFinder.getCodeFromName(mechanism.mechanism);}}"><i class="fa fa-search"></i></a></h3>
             <table>
                 <tr>
                     <th>Agency</th><td ng-bind="mechanism.agency"></td>

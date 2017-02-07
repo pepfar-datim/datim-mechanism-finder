@@ -1,19 +1,23 @@
-'use strict';
-
-class PartnerFinderController {
+export default class PartnerFinderController {
     constructor(partners, organisationUnits, sqlViewMapper, SQL_VIEW_PARTNERS) {
         this.selectedPartner;
         this.selectedOrganisationUnit;
         this.foundMechanisms;
         this.partners = partners;
+        this.allPartners = partners;
         this.organisationUnits = organisationUnits;
         this.sqlViewMapper = sqlViewMapper;
         this.SQL_VIEW_PARTNERS = SQL_VIEW_PARTNERS;
     }
 
+    changedOrganisationUnit() {
+        this.searchPartners();
+    }
+
     searchPartners() {
         if (this.selectedOrganisationUnit && this.selectedOrganisationUnit.id && this.selectedPartner && this.selectedPartner.id) {
-                this.sqlViewMapper.getData(this.SQL_VIEW_PARTNERS, {
+            this.sqlViewMapper
+                .getData(this.SQL_VIEW_PARTNERS, {
                     organisationUnitId: this.selectedOrganisationUnit.id,
                     partnerId: this.selectedPartner.id
                 })
@@ -42,5 +46,3 @@ class PartnerFinderController {
         return mechanismName;
     }
 }
-
-export default PartnerFinderController;

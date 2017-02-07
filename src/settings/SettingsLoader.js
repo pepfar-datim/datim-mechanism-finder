@@ -7,7 +7,7 @@ class SettingsLoader {
     }
 
     getSystemSetting(settingsKey) {
-        return this.api.get([this.BASE_URL, 'api', 'systemSettings', settingsKey].join('/'))
+        return this.api.get([this.BASE_URL, 'api', 'systemSettings', settingsKey].join('/'), { cache: true })
             .then(response => response.data)
             .then(data => data === '' ? Promise.reject('No value found for ' + key) : Promise.resolve(data))
             .catch(error => {

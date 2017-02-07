@@ -1,6 +1,8 @@
 <div class="mechanism-finder">
     <input name="myMechanismSearch" type="search" ng-model="wimm.myMechanismSearchString" ng-model-options="{debounce: 500}"
-           placeholder="Search for mechanism in DATIM and the FACTS info synchronization log">
+           placeholder="Search for mechanism in DATIM and the FACTS info synchronization log"
+           class="mechanism-search-field"
+    >
     <div class="found-statuses ng-hide" ng-show="wimm.myMechanismSearchString.length">
         <p>
             Trying to find mechanism with mechanism code: <span ng-bind="wimm.datimMechanismCodeToSearch"></span>

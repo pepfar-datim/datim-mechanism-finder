@@ -1,26 +1,20 @@
-'use strict';
-
 const BUILD_DIR = 'build';
 
 const gulp = require('gulp');
 const runSequence = require('run-sequence');
 
 gulp.task('clean', function (cb) {
-    var del = require('del');
+    const del = require('del');
 
     del(BUILD_DIR, cb);
 });
 
 gulp.task('build', function (cb) {
-    runSequence('clean', ['app', 'pack', 'deps', 'dep-css', 'sass'], cb);
+    runSequence('clean', ['app'], cb);
 });
 
 gulp.task('build-deploy', function (cb) {
     runSequence('build', 'deploy', cb);
-});
-
-gulp.task('build-prod', function (cb) {
-    runSequence('build', 'zip', cb);
 });
 
 gulp.task('zip', function () {
@@ -31,68 +25,12 @@ gulp.task('zip', function () {
         .pipe(gulp.dest('.'));
 });
 
-gulp.task('pack', function (cb) {
-    var Builder = require('systemjs-builder');
-    var builder = new Builder({});
-
-    builder.loadConfig('./src/config.js')
-        .then(function () {
-            builder.config({
-                paths: {
-                    "*.controller": "./src/*.controller.js",
-                    'app': './src/*.js'
-                },
-                meta: {
-                    'manifest.webapp!json': { build: false},
-                    'manifest.webapp': { build: false}
-                }
-            });
-
-            return builder.build('app', BUILD_DIR + '/wimm.js', { minify: true, mangle: false, sourceMaps: true })
-                .then(function () {
-                    cb();
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        });
-});
-
-gulp.task('dep-css', function () {
-    var flatten = require('gulp-flatten');
-
-    return gulp.src([
-        './jspm_packages/github/angular-ui/*/dist/select.css'
-        ])
-        .pipe(flatten())
-        .pipe(gulp.dest(
-           [BUILD_DIR, 'css'].join('/'))
-        );
-});
-
 gulp.task('app', function () {
     return gulp.src([
         'src/**/*.{html,png}',
-        'src/config.js',
         'src/manifest.webapp'
     ])
     .pipe(gulp.dest(BUILD_DIR));
-});
-
-gulp.task('deps', function () {
-    return gulp.src(['jspm_packages/*'])
-        .pipe(gulp.dest([BUILD_DIR, 'jspm_packages'].join('/')));
-});
-
-gulp.task('sass', function () {
-    var rubySass = require('gulp-ruby-sass');
-    return rubySass(['./src/app.sass'], {loadPath: './src', style: 'expanded', compass: true})
-        .on('error', function (err) {
-            console.error('Error!', err.message);
-        })
-        .pipe(gulp.dest(
-            [BUILD_DIR, 'css'].join('/')
-        ));
 });
 
 gulp.task('deploy', function () {

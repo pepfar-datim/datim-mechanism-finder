@@ -1,1 +1,19 @@
-{"version":"0.0.3","name":"Mechanism Finder","description":"DATIM application to find a mechanism","icons":{"48":"./mag.png"},"developer":{"url":"","name":"Mark Polak, Jim Grace"},"launch_path":"index.html?v=0.0.3","default_locale":"en","activities":{"dhis":{"href":"*"}}}
+{
+    "version": "0.0.3",
+    "name": "Mechanism Finder",
+    "description": "DATIM application to find a mechanism",
+    "icons": {
+        "48": "./mag.png"
+    },
+    "developer": {
+        "url": "",
+        "name": "Mark Polak, Jim Grace"
+    },
+    "launch_path": "index.html?v=0.0.3",
+    "default_locale": "en",
+    "activities": {
+        "dhis": {
+            "href": "*"
+        }
+    }
+}
