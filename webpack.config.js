@@ -9,6 +9,7 @@ function bypass(req, res, opt) {
 const uglifyOptions = {
     mangle: false,
     mangleProps: false,
+    sourceMap: true,
 };
 
 module.exports = {
