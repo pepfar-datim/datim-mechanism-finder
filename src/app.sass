@@ -162,14 +162,14 @@ h2
   justify-content: space-between
 
   & > .ui-select-container
-    flex: 0 0 49%
+    flex: 1 1 100%
 
 .found-mechanisms-table
   & > div
     box-shadow: 1px 1px 3px #999
     border-radius: .25rem
     margin-top: 1rem
-    padding: .5rem 3rem
+    padding: .5rem
     border: 1px solid orange
 
     h3 a
@@ -184,10 +184,16 @@ h2
       h3
         color: green
 
-.mechanism-legend
-  margin: 1rem
-  text-align: right
+.mechanism-header
+  display: flex
+  flex-direction: row 
+  justify-content: space-between
+  margin: 1rem 0
 
+  span
+    font-weight: bold
+
+.mechanism-legend
   li
     display: inline-block
 
@@ -203,3 +209,17 @@ h2
 
       &.inactive
         background: orange
+
+.partner-box
+  border: 1px solid #CCC
+  padding: 1rem
+  margin: 1rem 0
+  border-radius: .25rem
+
+.mechanism-title
+  font-size: 1.25rem
+  margin-right: 1rem
+  font-weight: 500
+
+.help-message
+  padding: 1rem

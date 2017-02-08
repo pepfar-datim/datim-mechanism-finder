@@ -7,6 +7,7 @@ import './app.sass';
 import 'style-loader!css-loader!ui-select/dist/select.css';
 import MechanismFinderController from './mechanism-finder/mechanism-finder.controller';
 import PartnerFinderController from './partner-finder/partner-finder.controller';
+import partnerFinderState from './partner-finder/partner-finder-state.factory';
 import SqlViewMapper from './sql-view/SqlViewMapper'
 import SettingsLoader from './settings/SettingsLoader'
 
@@ -20,7 +21,7 @@ function preloadOrganisationUnitsAndPartners($http, DHIS_BASE_URL, objectCache) 
         DHIS_BASE_URL,
         'api',
         'categoryOptionGroupSets',
-        'BOyWrF33hiR.json?fields=categoryOptionGroups[id,name,code]&paging=false'
+        'BOyWrF33hiR.json?fields=categoryOptionGroups[id,name,code,categoryOptions[id,name,organisationUnits[id]]]&paging=false'
     ].join('/'), {cache: true})
     .then((response) => response.data)
     .then((data) => data && data.categoryOptionGroups)
@@ -59,6 +60,7 @@ angular.module('whereIsMyMech', ['ngRoute', 'ui.select'])
             this.route = toState.originalPath;
         });
     })
+    .factory('partnerFinderState', partnerFinderState)
     .service('settingsLoader', ['$http', 'DHIS_BASE_URL', SettingsLoader])
     .service('sqlViewMapper', ['$http', 'DHIS_BASE_URL', SqlViewMapper])
     .constant('SQL_VIEW_PARTNERS_SYSTEM_SETTING', 'keyAPP_MechanismFinder-PartnerSQLView')

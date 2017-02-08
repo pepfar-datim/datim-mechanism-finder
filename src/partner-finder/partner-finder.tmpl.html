@@ -1,40 +1,43 @@
 <div class="partner-finder">
 
     <div class="partner-finder-select-boxes">
-    <ui-select ng-model="partnerFinder.selectedOrganisationUnit" on-select="partnerFinder.changedOrganisationUnit()">
+    <ui-select ng-model="partnerFinder.partnerFinderState.currentOrganisationUnit" on-select="partnerFinder.changedOrganisationUnit()">
         <ui-select-match placeholder="Select a organisation unit">{{$select.selected.name}}</ui-select-match>
         <ui-select-choices repeat="orgUnit in partnerFinder.organisationUnits | filter: $select.search">
             <div ng-bind="orgUnit.name"></div>
         </ui-select-choices>
     </ui-select>
-
-    <ui-select ng-model="partnerFinder.selectedPartner" on-select="partnerFinder.searchPartners()">
-        <ui-select-match placeholder="Select a partner">{{$select.selected.name}}</ui-select-match>
-        <ui-select-choices repeat="partner in partnerFinder.partners | filter: $select.search">
-            <div ng-bind="partner.name"></div>
-        </ui-select-choices>
-    </ui-select>
     </div>
-    <div class="found-mechanisms-table">
-        <ul class="mechanism-legend">
-            <li><span class="color-block active"></span>Active</li>
-            <li><span class="color-block inactive"></span>Inactive</li>
-        </ul>
-        <div ng-repeat="mechanism in partnerFinder.foundMechanisms" ng-class="{active: partnerFinder.isMechanismActive(mechanism)}">
-            <h3><span ng-bind="mechanism.mechanism"></span><a ng-href="#!/mechanism-finder?query={{partnerFinder.getCodeFromName(mechanism.mechanism);}}"><i class="fa fa-search"></i></a></h3>
-            <table>
-                <tr>
-                    <th>Agency</th><td ng-bind="mechanism.agency"></td>
-                    <th>Start</th><td ng-bind="mechanism.startdate"></td>
-                    <th>End</th><td ng-bind="mechanism.enddate"></td>
-                </tr>
-            </table>
+    <div>
+        <div ng-repeat="partner in partnerFinder.partnerFinderState.partnersWithMechanismsInSelectedOU" class="partner-box">
+            <div ng-click="partnerFinder.partnerClicked(partner)">
+                <span style="font-size: 1.5rem;" ng-bind="partner.name"></span><span style="padding-left: 1rem; font-size: 1rem; color: 666;">(<span ng-bind="partner.mechanismCount"></span>)</span>
+            </div>
+            <div ng-if="partnerFinder.partnerFinderState.loadingStatus.has(partner)">
+                Loading mechansisms for <span ng-bind="partner.name"></span>
+            </div>
+            <div class="found-mechanisms-table" ng-if="partnerFinder.partnerFinderState.openClosedStatus.has(partner) && !partnerFinder.partnerFinderState.loadingStatus.has(partner)">
+                <header class="mechanism-header">
+                    <span>Mechanisms</span>
+                    <ul class="mechanism-legend">
+                        <li><span class="color-block active"></span>Active</li>
+                        <li><span class="color-block inactive"></span>Inactive</li>
+                    </ul>
+                </header>
+                <div ng-repeat="mechanism in partnerFinder.partnerFinderState.foundMechanismsForPartners.get(partner)" ng-class="{active: partnerFinder.isMechanismActive(mechanism)}">
+                    <div><span class="mechanism-title" ng-bind="mechanism.mechanism"></span><a ng-href="#!/mechanism-finder?query={{partnerFinder.getCodeFromName(mechanism.mechanism);}}"><i class="fa fa-search"></i></a></div>
+                    <table>
+                        <tr>
+                            <th>Agency</th><td ng-bind="mechanism.agency"></td>
+                            <th>Start</th><td ng-bind="mechanism.startdate"></td>
+                            <th>End</th><td ng-bind="mechanism.enddate"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-    <div ng-hide="partnerFinder.foundMechanisms">
-        <p>Please select a an Organisation Unit and a Partner to search for mechanisms that are linked to the Partner</p>
-    </div>
-    <div class="ng-hide" ng-show="partnerFinder.foundMechanisms && partnerFinder.foundMechanisms.length == 0">
-        <p>No mechanisms found for this Organisation Unit / Partner combination</p>
+    <div class="help-message" ng-hide="partnerFinder.partnerFinderState.currentOrganisationUnit">
+        <p>Please select a an Organisation unit to start</p>
     </div>
 </div>

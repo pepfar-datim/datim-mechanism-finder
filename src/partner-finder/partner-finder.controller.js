@@ -1,7 +1,6 @@
 export default class PartnerFinderController {
-    constructor(partners, organisationUnits, sqlViewMapper, SQL_VIEW_PARTNERS) {
-        this.selectedPartner;
-        this.selectedOrganisationUnit;
+    constructor(partners, organisationUnits, sqlViewMapper, SQL_VIEW_PARTNERS, partnerFinderState) {
+        this.partnerFinderState = partnerFinderState;
         this.foundMechanisms;
         this.partners = partners;
         this.allPartners = partners;
@@ -11,20 +10,48 @@ export default class PartnerFinderController {
     }
 
     changedOrganisationUnit() {
-        this.searchPartners();
+        this.partnerFinderState.partnersWithMechanismsInSelectedOU = this.allPartners
+                .filter(partner => {
+                    return partner.categoryOptions && partner.categoryOptions.some(categoryOption => categoryOption.organisationUnits && categoryOption.organisationUnits.some(organisationUnit => organisationUnit.id === this.partnerFinderState.currentOrganisationUnit.id))
+                })
+                .map(partner => {
+                    return {
+                        id: partner.id,
+                        name: partner.name,
+                        mechanismCount: partner.categoryOptions && partner.categoryOptions.filter(categoryOption => categoryOption.organisationUnits && categoryOption.organisationUnits.some(organisationUnit => organisationUnit.id === this.partnerFinderState.currentOrganisationUnit.id)).length,
+                        mechansisms: partner.categoryOptions.filter(categoryOption => categoryOption.organisationUnits && categoryOption.organisationUnits.some(organisationUnit => organisationUnit.id === this.partnerFinderState.currentOrganisationUnit.id)),
+                    };
+                });
     }
 
-    searchPartners() {
-        if (this.selectedOrganisationUnit && this.selectedOrganisationUnit.id && this.selectedPartner && this.selectedPartner.id) {
-            this.sqlViewMapper
-                .getData(this.SQL_VIEW_PARTNERS, {
-                    organisationUnitId: this.selectedOrganisationUnit.id,
-                    partnerId: this.selectedPartner.id
-                })
+    partnerClicked(partner) {
+        if (this.partnerFinderState.openClosedStatus.has(partner)) {
+            this.partnerFinderState.openClosedStatus.delete(partner);
+        } else {
+            this.partnerFinderState.openClosedStatus.add(partner);
+        }
+
+        if (!this.partnerFinderState.foundMechanismsForPartners.has(partner)) {
+            this.partnerFinderState.loadingStatus.add(partner);
+            this.searchPartner(partner)
+                .then(mechanisms => this.partnerFinderState.foundMechanismsForPartners.set(partner, mechanisms))
                 .then(mechanisms => {
-                    this.foundMechanisms = mechanisms;
+                    this.partnerFinderState.loadingStatus.delete(partner);
+                    return mechanisms;
                 });
         }
+    }
+
+    searchPartner(partner) {
+        if (this.partnerFinderState.currentOrganisationUnit && this.partnerFinderState.currentOrganisationUnit.id && partner && partner.id) {
+            return this.sqlViewMapper
+                .getData(this.SQL_VIEW_PARTNERS, {
+                    organisationUnitId: this.partnerFinderState.currentOrganisationUnit.id,
+                    partnerId: partner.id
+                });
+        }
+
+        return this.$q.resolve([]);
     }
 
     isMechanismActive(mechanism) {
