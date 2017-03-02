@@ -1,8 +1,35 @@
-'use strict';
 import 'jquery';
 import angular from 'angular';
 
-import manifest from 'manifest.webapp!json';
+import 'normalize.css';
+import './app.sass';
+
+let developmentHeaders = {};
+if (process.env.NODE_ENV === 'development') {
+    developmentHeaders = require('../developmentHeaders.js');
+}
+
+function injectStyleSheet(stylesheetLink) {
+    const linkElement = document.createElement('link');
+    linkElement.setAttribute('type', 'text/css');
+    linkElement.setAttribute('rel', 'stylesheet');
+    linkElement.setAttribute('href', stylesheetLink);
+
+    const head = document.querySelector('head');
+    if (head) {
+        head.appendChild(linkElement);
+    }
+}
+
+function dhisDate() {
+    return (value) => {
+        if (/T([0-9]{2}:[0-9]{2}:[0-9]{2}).[0-9]{3}$/.test(value)) {
+            return value.replace(/T([0-9]{2}\:[0-9]{2}\:[0-9]{2})\.[0-9]{3}$/, (match, time) => ` ${time}`);
+        }
+
+        return value;
+    };
+}
 
 class WhereIsMyMechController {
     constructor($http, $scope, $location) {
@@ -52,7 +79,7 @@ class WhereIsMyMechController {
 
         this.location.search('query', this.myMechanismSearchString);
 
-        this.api.get('//sync.datim.org:1777/?search=' + this.myMechanismSearchString)
+        this.api.get('https://sync.datim.org?search=' + this.myMechanismSearchString)
             .then(this.buildResultList.bind(this))
             .then(this.setResultList.bind(this))
             .then((resultList) => {
@@ -100,10 +127,16 @@ class WhereIsMyMechController {
                 return response.data;
             })
             .then(manifest => {
+                if (process.env.NODE_ENV === 'development') {
+                    return 'https://dev.datim.org'
+                }
+
                 return manifest.activities.dhis.href;
             })
             .then(apiUrl => {
-                return this.api.get([apiUrl, 'api', 'categoryOptions.json?filter=code:eq:' + this.datimMechanismCodeToSearch + '&fields=:all'].join('/'));
+                injectStyleSheet(`${apiUrl}/dhis-web-commons/font-awesome/css/font-awesome.min.css`);
+
+                return this.api.get([apiUrl, 'api', 'categoryOptions.json?filter=code:eq:' + this.datimMechanismCodeToSearch + '&fields=:owner,displayName,name,categories[:owner],categoryOptionCombos[:owner],categoryOptionGroups[:owner],organisationUnits[:owner]'].join('/'));
             })
             .then(response => response.data.categoryOptions[0])
             .then(categoryOption => {
@@ -116,53 +149,37 @@ class WhereIsMyMechController {
                     this.datimInfo.agency = categoryOption.categoryOptionGroups.filter(categoryOptionGroup => /^Agency_.+/.test(categoryOptionGroup.code)).reduce((current) => current);
                     this.datimInfo.partner = categoryOption.categoryOptionGroups.filter(categoryOptionGroup => /^Partner_.+/.test(categoryOptionGroup.code)).reduce((current) => current);
                 }
+            })
+            .catch(error => {
+                console.error(error);
             });
 
     }
 }
 
-function initMenu() {
-    //Setup dhis2 global for the menu
-    window.dhis2 = window.dhis2 || {};
-    dhis2.settings = dhis2.settings || {};
-    dhis2.settings.baseUrl = manifest.activities.dhis.href.replace(window.location.origin, '').replace(/^\//, '');
 
-    System.config({
-        paths: {
-            'commons:*': window.location.origin + '/' + dhis2.settings.baseUrl + '/dhis-web-commons/javascripts/dhis2/*.js'
-        }
-    });
-    let menuFiles = [
-        'dhis2.translate',
-        'dhis2.menu',
-        'dhis2.menu.ui'
-    ];
-
-    let stylesheets = [
-        '/dhis-web-commons/font-awesome/css/font-awesome.min.css',
-        '/dhis-web-commons/css/menu.css'
-    ];
-    let headElement = angular.element(document.querySelector('head'));
-    stylesheets.forEach(stylesheetUrl => {
-        let styleSheetElement = angular.element('<link href="' + window.location.origin + dhis2.settings.baseUrl + stylesheetUrl + '" rel="stylesheet" type="text/css" />');
-        angular.element(document.querySelector('head'))
-            .append(styleSheetElement);
-    });
-
-    return new Promise(function (resolve, reject) {
-        let result = Promise.resolve([]);
-        menuFiles.forEach(menuFile => {
-                result = result.then(function () {
-                return System.import('commons:' + menuFile);
+angular.module('whereIsMyMech', [])
+    .config($httpProvider => {
+        if (process.env.NODE_ENV === 'development') {
+            $httpProvider.interceptors.push(($q) => {
+                return {
+                    request(config) {
+                        if (config.url && /^https:\/\/dev.datim.org/.test(config.url)) {
+                            config.headers = Object.assign({}, config.headers, developmentHeaders);
+                        }
+                        return config;
+                    },
+                };
             });
-        });
+        }
+    })
+    .controller('WhereIsMyMechController', WhereIsMyMechController)
+    .filter('dhisDate', dhisDate);
 
-        resolve(result);
-    });
+
+function initMenu() {
+    return jQuery.getJSON('manifest.webapp')
 }
-
-angular.module('whereIsMyMech', ['d2HeaderBar'])
-    .controller('WhereIsMyMechController', WhereIsMyMechController);
 
 initMenu()
     .then(() => angular.bootstrap(document.querySelector('html'), ['whereIsMyMech']))

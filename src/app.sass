@@ -1,6 +1,11 @@
-@import 'normalize'
-@import 'compass'
-@import 'susy'
+*
+  box-sizing: border-box
+
+html
+  font-size: 14px
+
+input[type=search]
+  box-sizing: border-box
 
 .ng-hide
   display: none
@@ -26,40 +31,47 @@ input[type=search]
     border-color: orange
 
 .found-statuses
-  @include span(1 of 1)
+  // @include span(1 of 1)
 
 .datim-info,
 .factsinfo-info
-  @include container()
+  // @include container()
 
   h2
     font-size: 1.2rem
-    color: #CCC
+    color: #333
 
   th, td
-    position: relative
-    padding: .2rem 0.4rem
-    white-space: nowrap
+    padding: .2rem .4rem
 
-  .longtext-field
-    position: relative
-    max-width: 15rem
-    overflow: hidden
-
-    &:after
-      content: ''
-      display: block
-      position: absolute
-      top: 0
-      right: 0
-      width: 2rem
-      bottom: 0
+  th
+    line-height: 1.4rem
+    vertical-align: top
 
   .odd :after
-    @include background-image(linear-gradient(left,  rgba(254,254,254,0) 0%,rgba(254,254,254,1) 100%))
+    // @include background-image(linear-gradient(left,  rgba(254,254,254,0) 0%,rgba(254,254,254,1) 100%))
 
   .even :after
-    @include background-image(linear-gradient(left,  rgba(244,244,244,0) 0%,rgba(244,244,244,1) 100%))
+    // @include background-image(linear-gradient(left,  rgba(244,244,244,0) 0%,rgba(244,244,244,1) 100%))
+
+.factsinfo-info
+  th, td
+    position: relative
+    white-space: nowrap
+
+    &.longtext-field
+      position: relative
+      max-width: 15rem
+      overflow: hidden
+
+      &:after
+        content: ''
+        display: block
+        position: absolute
+        top: 0
+        right: 0
+        width: 2rem
+        bottom: 0
 
 .factsinfo-data-table
   overflow-x: auto
@@ -70,13 +82,14 @@ input[type=search]
     border-bottom: 1px solid #CCC
 
 .datim-info-blocks
-  @include container()
+  // @include container()
+  display: flex
+  flex-direction: row
+  justify-content: space-between
 
   div
-    @include span(1 of 3)
-
-  div:last-child
-    @include span(1 of 3 last)
+    // @include span(1 of 3)
+    flex: 0 0 32%
 
   th, td
     padding: .25rem
@@ -108,3 +121,105 @@ h2, h3
 
 h2
   margin-top: 1rem
+
+.finders
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  margin-bottom: 1.5rem
+
+  & > div
+    flex: 0 0 49%
+    border: 1px solid #CCC
+    border-radius: 0.2rem
+    padding: .5rem
+    text-align: center
+    position: relative
+    height: 3rem
+
+    &:last-child
+      // @include span(4 of 8 last)
+
+    &.active
+      background: #337ab7
+      a
+        color: white
+
+  a
+    display: block
+    position: absolute
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+    line-height: 3rem
+
+    &:hover, &:active
+      text-decoration: none
+
+.partner-finder-select-boxes
+  display: flex
+  justify-content: space-between
+
+  & > .ui-select-container
+    flex: 1 1 100%
+
+.found-mechanisms-table
+  & > div
+    box-shadow: 1px 1px 3px #999
+    border-radius: .25rem
+    margin-top: 1rem
+    padding: .5rem
+    border: 1px solid orange
+
+    h3 a
+      margin-left: 1rem
+      color: #AAA
+      font-size: .75em
+      vertical-align: text-top
+
+    &.active
+      border: 1px solid green
+
+      h3
+        color: green
+
+.mechanism-header
+  display: flex
+  flex-direction: row 
+  justify-content: space-between
+  margin: 1rem 0
+
+  span
+    font-weight: bold
+
+.mechanism-legend
+  li
+    display: inline-block
+
+    span.color-block
+      display: inline-block
+      width: 1rem
+      height: 1rem
+      border-radius: .25rem
+      margin-right: .25rem
+
+      &.active
+        background: green
+
+      &.inactive
+        background: orange
+
+.partner-box
+  border: 1px solid #CCC
+  padding: 1rem
+  margin: 1rem 0
+  border-radius: .25rem
+
+.mechanism-title
+  font-size: 1.25rem
+  margin-right: 1rem
+  font-weight: 500
+
+.help-message
+  padding: 1rem
