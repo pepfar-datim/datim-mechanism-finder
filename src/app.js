@@ -157,30 +157,44 @@ class WhereIsMyMechController {
     }
 }
 
-
-angular.module('whereIsMyMech', [])
-    .config($httpProvider => {
-        if (process.env.NODE_ENV === 'development') {
-            $httpProvider.interceptors.push(($q) => {
-                return {
-                    request(config) {
-                        if (config.url && /^https:\/\/dev.datim.org/.test(config.url)) {
-                            config.headers = Object.assign({}, config.headers, developmentHeaders);
-                        }
-                        return config;
-                    },
-                };
-            });
-        }
-    })
-    .controller('WhereIsMyMechController', WhereIsMyMechController)
-    .filter('dhisDate', dhisDate);
-
+function createWhereIsMyMechModule() {
+    angular.module('whereIsMyMech', ['d2HeaderBar'])
+        .config($httpProvider => {
+            if (process.env.NODE_ENV === 'development') {
+                $httpProvider.interceptors.push(($q) => {
+                    return {
+                        request(config) {
+                            if (config.url && /^https:\/\/dev.datim.org/.test(config.url)) {
+                                config.headers = Object.assign({}, config.headers, developmentHeaders);
+                            }
+                            return config;
+                        },
+                    };
+                });
+            }
+        })
+        .controller('WhereIsMyMechController', WhereIsMyMechController)
+        .filter('dhisDate', dhisDate);
+}
 
 function initMenu() {
     return jQuery.getJSON('manifest.webapp')
 }
 
+function loadD2Menu(callback) {
+    var dhis2MenuScript = document.createElement('script');
+    dhis2MenuScript.src = '/dhis-web-commons/javascripts/dhis2/dhis2.menu.ui.js';
+    dhis2MenuScript.onload = function () { setTimeout(callback, 0); };
+
+    document.head.appendChild(dhis2MenuScript);
+}
+
 initMenu()
-    .then(() => angular.bootstrap(document.querySelector('html'), ['whereIsMyMech']))
-    .catch(() => window.console.log('Failed to bootstrap the app'));
+    .then((manifest) => {
+        loadD2Menu(function () {
+            createWhereIsMyMechModule();
+
+            angular.bootstrap(document.querySelector('html'), ['whereIsMyMech']);
+        });
+    })
+    .catch((e) => window.console.log('Failed to bootstrap the app', e));
