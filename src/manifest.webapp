@@ -1,5 +1,5 @@
 {
-    "version": "1.0.2",
+    "version": "1.0.1",
     "name": "Mechanism Finder",
     "description": "DATIM application to find a mechanism",
     "icons": {
@@ -9,7 +9,7 @@
         "url": "",
         "name": "Mark Polak, Jim Grace"
     },
-    "launch_path": "index.html?v=1.0.2",
+    "launch_path": "index.html?v=1.0.1",
     "default_locale": "en",
     "activities": {
         "dhis": {
