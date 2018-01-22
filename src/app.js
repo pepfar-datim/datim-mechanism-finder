@@ -72,6 +72,7 @@ class WhereIsMyMechController {
     }
 
     search() {
+        this.isSearching = true;
         //Reset found flags
         this.foundInDatim = false;
         this.foundInFactsInfo = false;
@@ -89,7 +90,8 @@ class WhereIsMyMechController {
                 }
                 return [];
             })
-            .then(this.loadDATIMMechanism.bind(this));
+            .then(this.loadDATIMMechanism.bind(this))
+            .then(() => this.isSearching = false);
     }
 
     buildResultList(response) {

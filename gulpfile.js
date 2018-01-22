@@ -27,7 +27,7 @@ gulp.task('zip', function () {
 
 gulp.task('app', function () {
     return gulp.src([
-        'src/**/*.{html,png}',
+        'src/**/*.{html,png,gif}',
         'src/manifest.webapp'
     ])
     .pipe(gulp.dest(BUILD_DIR));

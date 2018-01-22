@@ -45,7 +45,7 @@ module.exports = {
                 }, {
                     loader: "sass-loader" // compiles Sass to CSS
                 }],
-            },
+            }
         ]
     },
     externals: {
@@ -75,7 +75,7 @@ module.exports = {
                 target: 'https://dev.datim.org',
                 changeOrigin: true,
                 bypass,
-            },
-        ],
-    },
+            }
+        ]
+    }
 };

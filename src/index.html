@@ -25,10 +25,13 @@
            placeholder="Search for mechanism in datim and the FACTS info synchronisation log">
     <div class="found-statuses ng-hide" ng-show="wimm.myMechanismSearchString.length">
         <p>
-            Trying to find mechanism with mechanism code: <span ng-bind="wimm.datimMechanismCodeToSearch"></span>
+            Trying to find mechanism with mechanism code: <span ng-bind="wimm.myMechanismSearchString"></span>
         </p>
-        <span><i class="fa fa-check" ng-class="{'fa-check': wimm.foundInDatim, 'fa-times': !wimm.foundInDatim}"></i>Found in DATIM</span>
-        <span><i class="fa fa-check" ng-class="{'fa-check': wimm.foundInFactsInfo, 'fa-times': !wimm.foundInFactsInfo}"></i>Found in FACTS Info</span>
+        <span ng-if="!wimm.isSearching"><i class="fa fa-check" ng-class="{'fa-check': wimm.foundInDatim, 'fa-times': !wimm.foundInDatim}"></i>Found in DATIM</span>
+        <span ng-if="!wimm.isSearching"><i class="fa fa-check" ng-class="{'fa-check': wimm.foundInFactsInfo, 'fa-times': !wimm.foundInFactsInfo}"></i>Found in FACTS Info</span>
+    </div>
+    <div class="loading-spinner ng-hide" ng-show="wimm.isSearching" style="text-align: center; margin-top: 100px;">
+        <img src="spinner.gif" width="48" height="48" />
     </div>
 
     <div class="datim-info ng-hide" ng-show="wimm.foundInDatim">
