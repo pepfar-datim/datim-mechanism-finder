@@ -124,7 +124,7 @@ class WhereIsMyMechController {
             this.datimMechanismCodeToSearch = this.myMechanismSearchString;
         }
 
-        this.api.get('manifest.webapp')
+        return this.api.get('manifest.webapp')
             .then(response => {
                 return response.data;
             })
