@@ -53,6 +53,16 @@ class WhereIsMyMechController {
         this.api = $http;
         this.datimInfo = {};
         this.location = $location;
+        this.environment = 'testEnv';
+        
+        if (this.location.$$host == 'www.datim.org' || this.location.$$host == 'triage.datim.org') {
+            this.environment = 'prodEnv';
+        }
+
+        this.urlLogic = {
+            prodEnv: {url:'https://sync.datim.org',factsText:'Found in FACTS Info'},
+            testEnv: {url:'https://test.sync.datim.org',factsText:'Found in FACTS Info test feed'}
+        };
 
         $scope.$watch(() => this.myMechanismSearchString, (newVal, oldVal) => {
             if (newVal !== oldVal) {
@@ -78,9 +88,13 @@ class WhereIsMyMechController {
         this.foundInFactsInfo = false;
         this.datimInfo = {};
 
+        if (this.location.$$search.server == 'production'){
+            this.environment = 'prodEnv';
+        }
+
         this.location.search('query', this.myMechanismSearchString);
 
-        this.api.get('https://sync.datim.org?search=' + this.myMechanismSearchString)
+        this.api.get(this['urlLogic'][this.environment]['url'] + '?search=' + this.myMechanismSearchString)
             .then(this.buildResultList.bind(this))
             .then(this.setResultList.bind(this))
             .then((resultList) => {
