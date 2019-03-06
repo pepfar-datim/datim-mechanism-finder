@@ -64,6 +64,8 @@ class WhereIsMyMechController {
             testEnv: {url:'https://test.sync.datim.org',factsText:'Found in FACTS Info test feed'}
         };
 
+        this.factsText = this['urlLogic'][this.environment]['factsText'];
+
         $scope.$watch(() => this.myMechanismSearchString, (newVal, oldVal) => {
             if (newVal !== oldVal) {
                 this.search();
@@ -91,6 +93,8 @@ class WhereIsMyMechController {
         if (this.location.$$search.server == 'production'){
             this.environment = 'prodEnv';
         }
+
+        this.factsText = this['urlLogic'][this.environment]['factsText'];
 
         this.location.search('query', this.myMechanismSearchString);
 
