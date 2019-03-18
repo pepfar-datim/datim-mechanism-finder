@@ -1,5 +1,6 @@
 *.iml
-*.zip
+*.zip!**/releases/*.zip
+*.DS_Store
 
 node_modules
 
