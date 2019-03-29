@@ -54,8 +54,9 @@ class WhereIsMyMechController {
         this.datimInfo = {};
         this.location = $location;
         this.environment = 'testEnv';
+        this.datimRe = new RegExp('datim\.org$');
         
-        if (this.location.$$host == 'www.datim.org' || this.location.$$host == 'triage.datim.org') {
+        if (this.location.$$host == 'www.datim.org' || this.location.$$host == 'triage.datim.org' || !this.datimRe.test(this.location.$$host)) {
             this.environment = 'prodEnv';
         }
 
