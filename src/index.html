@@ -23,6 +23,10 @@
     <div class="app ng-cloak">
     <input name="myMechanismSearch" type="search" ng-model="wimm.myMechanismSearchString" ng-model-options="{debounce: 500}"
            placeholder="Search for mechanism in datim and the FACTS info synchronisation log">
+    <form ng-show="wimm.testEnvironment" style="padding:10px">
+        <input type="radio" ng-model="wimm.factsUsed" value="prod" style="margin-left: 15px; margin-right: 5px;" name="prodTest">Search in FACTS Info production feed
+        <input type="radio" ng-model="wimm.factsUsed" value="test" style="margin-left: 15px; margin-right: 5px;" name="prodTest">Search in FACTS Info test feed
+    </form>
     <div class="found-statuses ng-hide" ng-show="wimm.myMechanismSearchString.length">
         <p>
             Trying to find mechanism with mechanism code: <span ng-bind="wimm.myMechanismSearchString"></span>

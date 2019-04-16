@@ -53,21 +53,28 @@ class WhereIsMyMechController {
         this.api = $http;
         this.datimInfo = {};
         this.location = $location;
-        this.environment = 'testEnv';
+        this.testEnvironment = false;
+        this.factsUsed = 'prod';
         this.datimRe = new RegExp('datim\.org$');
         
-        if (this.location.$$host == 'www.datim.org' || this.location.$$host == 'triage.datim.org' || !this.datimRe.test(this.location.$$host)) {
-            this.environment = 'prodEnv';
+        if (this.datimRe.test(this.location.$$host) && this.location.$$host != 'www.datim.org' && this.location.$$host != 'triage.datim.org') {
+            this.testEnvironment = true;
         }
 
         this.urlLogic = {
-            prodEnv: {url:'https://sync.datim.org',factsText:'Found in FACTS Info'},
-            testEnv: {url:'https://test.sync.datim.org',factsText:'Found in FACTS Info test feed'}
+            prod: {url:'https://sync.datim.org',factsText:'Found in FACTS Info'},
+            test: {url:'https://test.sync.datim.org',factsText:'Found in FACTS Info test feed'}
         };
 
-        this.factsText = this['urlLogic'][this.environment]['factsText'];
+        this.factsText = this['urlLogic'][this.factsUsed]['factsText'];
 
         $scope.$watch(() => this.myMechanismSearchString, (newVal, oldVal) => {
+            if (newVal !== oldVal) {
+                this.search();
+            }
+        });
+
+        $scope.$watch(() => this.factsUsed, (newVal, oldVal) => {
             if (newVal !== oldVal) {
                 this.search();
             }
@@ -91,15 +98,15 @@ class WhereIsMyMechController {
         this.foundInFactsInfo = false;
         this.datimInfo = {};
 
-        if (this.location.$$search.server == 'production'){
-            this.environment = 'prodEnv';
+        if (this.location.$$search.server == 'test'){
+            this.factsUsed = 'test';
         }
 
-        this.factsText = this['urlLogic'][this.environment]['factsText'];
+        this.factsText = this['urlLogic'][this.factsUsed]['factsText'];
 
         this.location.search('query', this.myMechanismSearchString);
 
-        this.api.get(this['urlLogic'][this.environment]['url'] + '?search=' + this.myMechanismSearchString)
+        this.api.get(this['urlLogic'][this.factsUsed]['url'] + '?search=' + this.myMechanismSearchString)
             .then(this.buildResultList.bind(this))
             .then(this.setResultList.bind(this))
             .then((resultList) => {
