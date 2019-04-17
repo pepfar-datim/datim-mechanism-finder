@@ -33,21 +33,6 @@ function dhisDate() {
 
 class WhereIsMyMechController {
     constructor($http, $scope, $location) {
-        this.headerMap = {
-            Date: 'Date',
-            OperatingUnit: 'OU',
-            FiscalYear: 'FY',
-            PlanningReportingCycle: 'Reporting Cycle',
-            HQMechanismID: 'HQ ID',
-            LegacyMechanismID: 'Legacy ID',
-            ImplementingMechanismName: 'IM',
-            FundingAgency: 'Funding Agency',
-            PrimePartner: 'Prime Partner',
-            PrimePartnerID: 'Partner ID',
-            StartDate: 'Start Date',
-            EndDate: 'End Date',
-            Active: 'Active'
-        };
 
         this.myMechanismSearchString = '';
         this.api = $http;
@@ -135,9 +120,8 @@ class WhereIsMyMechController {
     }
 
     setResultList(resultList) {
-        if (!this.headers) {
-            this.headers = resultList.headers;
-        }
+        
+        this.headers = resultList.headers;
         this.resultList = resultList.lines;
 
         return this.resultList;
