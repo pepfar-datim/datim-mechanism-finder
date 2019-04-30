@@ -2,7 +2,8 @@
 *.zip!**/releases/*.zip
 *.DS_Store
 
-node_modules
+new/node_modules
+current/node_modules
 
 build
 
