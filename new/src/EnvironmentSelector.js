@@ -15,14 +15,14 @@ function EnvironmentSelector(props) {
 				row
 			>
 				<FormControlLabel
-					value="test"
-					control={<Radio />}
-					label="Test"
-				/>
-				<FormControlLabel
 					value="prod"
 					control={<Radio />}
 					label="Prod"
+				/>
+				<FormControlLabel
+					value="test"
+					control={<Radio />}
+					label="Test"
 				/>
 			</RadioGroup>
 		</div>
