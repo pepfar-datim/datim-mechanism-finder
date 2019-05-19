@@ -4,3 +4,6 @@ This servlet provides the lookup in FACTSInfo for the Mechanism Finder.  It can 
 ```
 node mechanism-lookup.js
 ```
+
+It can be seen in practice at:
+- https://sync.datim.org/?search=kenya

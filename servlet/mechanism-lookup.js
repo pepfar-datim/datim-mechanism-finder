@@ -1,12 +1,16 @@
+var fastcsv = require('fast-csv');
 var http = require('http');
+var sync = require('synchronize');
 var url = require('url');
 var fs = require('fs');
-var fastcsv = require('fast-csv');
-var sync = require('synchronize');
+var os = require('os');
 
-//var dir = "/Users/jim/Documents/dev/sync/syncprod/archive";
-var dir = "/home/ingest/prod/archive";
 var fileCache = [];
+if (os.hostname() == 'test.sync.datim.org') {
+    var dir = '/home/ingest/test/archive';
+} else {
+    var dir = '/home/ingest/prod/archive';
+}
 
 /**
  * Adjusts for Windows-1252 characters from 8-bit ASCII read from a file.
@@ -18,16 +22,16 @@ function windows1252(s) { // Adjust for Windows-1252 characters from 8-bit ASCII
     for (var i = 0; i < s.length; i++) {
         var code = s.charCodeAt(i);
         if (code >= 0x80 && code <= 0x9f) {
-            var c = "€_‚ƒ„…†‡ˆ‰Š‹Œ_Ž_‘’“”•–—˜™š›œ_žŸ".substr(code - 0x80 - 1, 1);
-            s = s.substr(0,i) + c + s.substr(i+1);
+            var c = '€_‚ƒ„…†‡ˆ‰Š‹Œ_Ž_‘’“”•–—˜™š›œ_žŸ'.substr(code - 0x80 - 1, 1);
+            s = s.substr(0, i) + c + s.substr(i + 1);
         }
     }
     return s;
 }
 
 function loadFileLines(fileName) {
-    var body = windows1252( fs.readFileSync( dir + "/" + fileName, {encoding: "binary"} ));
-    return body.split("\r\n");
+    var body = windows1252( fs.readFileSync(dir + '/' + fileName, {encoding: 'binary'}));
+    return body.split('\r\n');
 }
 
 function refreshFileCache() {
@@ -39,12 +43,11 @@ function refreshFileCache() {
     }
 
     // Add one or more new entries to file cache:
-
     var newCache = [];
     for (var i in files) {
         newCache[i] = {};
         newCache[i].name = files[i];
-        newCache[i].date = files[i].substr(26,10)
+        newCache[i].date = files[i].substr(26, 10);
         for (var j in fileCache) {
             if (fileCache[j].name == files[i]) {
                 newCache[i].lines = fileCache[j].lines;
@@ -61,7 +64,7 @@ function refreshFileCache() {
 function readCsvLine(line, callback) {
     var val;
     fastcsv.fromString(line)
-        .on("data", function (data) {
+        .on('data', function (data) {
             callback(null, data);
         })
     return val;
@@ -80,16 +83,16 @@ function readCsvLineSync(line) {
  */
 function search(searchArg) {
     var results = [];
-    results.push( readCsvLineSync("Date,OU,FY,Reporting Cycle,HQ ID,Legacy ID,IM,Agency,Prime Partner,Prime ID,Start Date,End Date,Active") ); // Header line.
+    results.push(readCsvLineSync('Date,OU,FY,Reporting Cycle,HQ ID,Legacy ID,IM,Agency,Legacy Partner Name,Legacy Partner ID,Start Date,End Date,Active,Award Number,Partner DUNS,Partner Country,Indigenous Partner,Organization Type,Legacy Partner Organization Type ID,OU Country Code,Partner Name')); // Header line.
     if (searchArg) {
         refreshFileCache();
         var lineCount = 0;
-        var reg = new RegExp(searchArg, "i"); // Case-insensitive regular expression.
+        var reg = new RegExp(searchArg, 'i'); // Case-insensitive regular expression.
         for (var i = fileCache.length-1; i >= 0; i--) {
             var cache = fileCache[i];
             for (var j = 0; j < cache.lines.length; j++) {
                 if ( reg.test(cache.lines[j]) ) {
-                    results.push(readCsvLineSync(cache.date + "," + cache.lines[j]));
+                    results.push(readCsvLineSync(cache.date + ',' + cache.lines[j]));
                     if (++lineCount == 90) {
                         return results; // Limit output to 90 lines.
                     }
