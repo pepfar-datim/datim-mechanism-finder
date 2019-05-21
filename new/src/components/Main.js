@@ -1,5 +1,5 @@
 import React from "react";
-import "./App.css";
+import "./Main.css";
 
 import SearchBar from "./SearchBar.js";
 import EnvironmentSelector from "./EnvironmentSelector.js";
@@ -7,9 +7,9 @@ import FoundSummary from "./FoundSummary.js";
 import DataTable from "./DataTable.js";
 import MechanismCard from "./MechanismCard.js";
 
-import { getData } from "./getData.js";
+import { getData } from "../services/getData.service.js";
 
-class App extends React.Component {
+class Main extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -19,7 +19,10 @@ class App extends React.Component {
 			data: [],
 			searching: true,
 			factsText: "",
-			datimText: ""
+			datimText: "",
+			mechanism: "",
+			agency: "",
+			partner: ""
 		};
 		this.handleSearchChange = this.handleSearchChange.bind(this);
 		this.handleEnvironmentChange = this.handleEnvironmentChange.bind(this);
@@ -32,6 +35,9 @@ class App extends React.Component {
 			data: "",
 			factsText: "",
 			datimText: "",
+			mechanism: "",
+			agency: "",
+			partner: "",
 			timeout: setTimeout(() => {
 				getData(this.state.searchText, this.state.environment, this);
 			}, 1000)
@@ -50,7 +56,7 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div className="App">
+			<div className="Main">
 				<h2>DATIM Mechanism Finder</h2>
 				<SearchBar
 					searchText={this.state.searchText}
@@ -66,14 +72,27 @@ class App extends React.Component {
 							factsText={this.state.factsText}
 							datimText={this.state.datimText}
 						/>
-						<div
-							className="row"
-							style={{ "white-space": "nowrap" }}
-						>
-							<MechanismCard text="mechanism" />
-							<MechanismCard text="more mechanism" />
-							<MechanismCard text="mechanism (again)" />
-						</div>
+						{(this.state.mechanism ||
+							this.state.agency ||
+							this.state.partner) && (
+							<div
+								className="row"
+								style={{ whiteSpace: "nowrap" }}
+							>
+								<MechanismCard
+									text="Mechanism"
+									entity={this.state.mechanism}
+								/>
+								<MechanismCard
+									text="Agency"
+									entity={this.state.agency}
+								/>
+								<MechanismCard
+									text="Partner"
+									entity={this.state.partner}
+								/>
+							</div>
+						)}
 						{this.state.data.length > 1 && (
 							<DataTable data={this.state.data} />
 						)}
@@ -84,4 +103,4 @@ class App extends React.Component {
 	}
 }
 
-export default App;
+export default Main;
