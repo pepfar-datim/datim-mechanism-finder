@@ -19,13 +19,14 @@ export function getData(searchText, environment, _this) {
 		.then(text => {
 			return JSON.parse(text);
 		})
-		.then(data => {
-			if (data.length > 1) {
+		.then(dataArray => {
+			if (dataArray.length > 1) {
+				var data = dataToObject(JSON.parse(JSON.stringify(dataArray)))
 				_this.setState({
 					data: data,
 					factsText: urlLogic[environment]["factsText"]
 				});
-				return [data[1], _this];
+				return [dataArray[1], _this];
 			} else {
 				_this.setState({
 					factsText: "Not " + urlLogic[environment]["factsText"]
@@ -78,4 +79,16 @@ function getEntity(categoryOption, entityType) {
 		.filter(categoryOptionGroup => entityRe.test(categoryOptionGroup.code))
 		.reduce(current => current);
 	return entity;
+}
+
+function dataToObject(dataArray) {
+
+	for(let i=1; i<dataArray.length; i++){
+		var dataTempObject = dataArray[i].reduce(function (tempObject, value, index) {
+	  		tempObject[dataArray[0][index]] = value;
+	  		return tempObject;
+		}, {});
+		dataArray[i] = dataTempObject	
+	}
+	return dataArray
 }

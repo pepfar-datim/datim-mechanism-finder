@@ -5,6 +5,7 @@ import SearchBar from "./SearchBar.js";
 import EnvironmentSelector from "./EnvironmentSelector.js";
 import FoundSummary from "./FoundSummary.js";
 import DataTable from "./DataTable.js";
+import DataReactTable from "./DataReactTable.js";
 import MechanismCard from "./MechanismCard.js";
 
 import { getData } from "../services/getData.service.js";
@@ -94,7 +95,7 @@ class Main extends React.Component {
 							</div>
 						)}
 						{this.state.data.length > 1 && (
-							<DataTable data={this.state.data} />
+							<DataReactTable data={this.state.data}/>
 						)}
 					</div>
 				)}
