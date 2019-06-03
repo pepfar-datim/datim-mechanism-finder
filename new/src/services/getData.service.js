@@ -1,8 +1,8 @@
 import { generateUrlMechanism } from "./getUrl.service";
 
 const urlLogic = {
-	prod: { url: "https://sync.datim.org"},
-	test: {url: "https://test.sync.datim.org"}
+	prod: { url: "https://sync.datim.org" },
+	test: { url: "https://test.sync.datim.org" }
 };
 
 export function getData(searchText, environment, _this) {
@@ -18,7 +18,7 @@ export function getData(searchText, environment, _this) {
 		})
 		.then(dataArray => {
 			if (dataArray.length > 1) {
-				var data = dataToObject(JSON.parse(JSON.stringify(dataArray)))
+				var data = dataToObject(JSON.parse(JSON.stringify(dataArray)));
 				_this.setState({
 					data: data,
 					foundInFACTS: true
@@ -49,9 +49,7 @@ function getMechanism(info) {
 		.then(result => result.categoryOptions[0])
 		.then(categoryOption => {
 			_this.setState({ searching: false });
-			var foundInDATIM = categoryOption
-				? true
-				: false;
+			var foundInDATIM = categoryOption ? true : false;
 			_this.setState({ foundInDATIM: foundInDATIM });
 			if (categoryOption) {
 				_this.setState({ mechanism: categoryOption });
@@ -79,13 +77,18 @@ function getEntity(categoryOption, entityType) {
 }
 
 function dataToObject(dataArray) {
-
-	for(let i=1; i<dataArray.length; i++){
-		var dataTempObject = dataArray[i].reduce(function (tempObject, value, index) {
-	  		tempObject[dataArray[0][index]] = value;
-	  		return tempObject;
-		}, {});
-		dataArray[i] = dataTempObject	
+	dataArray[0].push("newDate");
+	for (let i = 1; i < dataArray.length; i++) {
+		var dataTempObject = dataArray[i].reduce(function(
+			tempObject,
+			value,
+			index
+		) {
+			tempObject[dataArray[0][index]] = value;
+			return tempObject;
+		},
+		{});
+		dataArray[i] = dataTempObject;
 	}
-	return dataArray
+	return dataArray;
 }
