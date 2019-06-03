@@ -1,11 +1,8 @@
 import { generateUrlMechanism } from "./getUrl.service";
 
 const urlLogic = {
-	prod: { url: "https://sync.datim.org", factsText: "Found in FACTS Info" },
-	test: {
-		url: "https://test.sync.datim.org",
-		factsText: "Found in FACTS Info test feed"
-	}
+	prod: { url: "https://sync.datim.org"},
+	test: {url: "https://test.sync.datim.org"}
 };
 
 export function getData(searchText, environment, _this) {
@@ -24,12 +21,12 @@ export function getData(searchText, environment, _this) {
 				var data = dataToObject(JSON.parse(JSON.stringify(dataArray)))
 				_this.setState({
 					data: data,
-					factsText: urlLogic[environment]["factsText"]
+					foundInFACTS: true
 				});
 				return [dataArray[1], _this];
 			} else {
 				_this.setState({
-					factsText: "Not " + urlLogic[environment]["factsText"]
+					foundInFACTS: false
 				});
 				return ["", _this];
 			}
@@ -52,10 +49,10 @@ function getMechanism(info) {
 		.then(result => result.categoryOptions[0])
 		.then(categoryOption => {
 			_this.setState({ searching: false });
-			var datimText = categoryOption
-				? "Found in DATIM"
-				: "Not found in DATIM";
-			_this.setState({ datimText: datimText });
+			var foundInDATIM = categoryOption
+				? true
+				: false;
+			_this.setState({ foundInDATIM: foundInDATIM });
 			if (categoryOption) {
 				_this.setState({ mechanism: categoryOption });
 				_this.setState({ agency: getEntity(categoryOption, "Agency") });
@@ -67,7 +64,7 @@ function getMechanism(info) {
 		.catch(error => {
 			_this.setState({
 				searching: false,
-				datimText: "Not found in DATIM: search error"
+				foundInDATIM: false
 			});
 			console.log(error);
 		});

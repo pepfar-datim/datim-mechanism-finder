@@ -19,8 +19,8 @@ class Main extends React.Component {
 			timeout: 0,
 			data: [],
 			searching: true,
-			factsText: "",
-			datimText: "",
+			foundInDATIM: false,
+			foundInFACTS: false,
 			mechanism: "",
 			agency: "",
 			partner: ""
@@ -34,8 +34,8 @@ class Main extends React.Component {
 		this.setState({
 			searching: true,
 			data: "",
-			factsText: "",
-			datimText: "",
+			foundInDATIM: false,
+			foundInFACTS: false,
 			mechanism: "",
 			agency: "",
 			partner: "",
@@ -70,8 +70,8 @@ class Main extends React.Component {
 				{!this.state.searching && (
 					<div>
 						<FoundSummary
-							factsText={this.state.factsText}
-							datimText={this.state.datimText}
+							foundInFACTS={this.state.foundInFACTS}
+							foundInDATIM={this.state.foundInDATIM}
 						/>
 						{(this.state.mechanism ||
 							this.state.agency ||
@@ -95,7 +95,7 @@ class Main extends React.Component {
 							</div>
 						)}
 						{this.state.data.length > 1 && (
-							<DataReactTable data={this.state.data}/>
+							<DataReactTable data={this.state.data} />
 						)}
 					</div>
 				)}
