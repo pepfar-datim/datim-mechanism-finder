@@ -77,7 +77,6 @@ function getEntity(categoryOption, entityType) {
 }
 
 function dataToObject(dataArray) {
-	dataArray[0].push("newDate");
 	for (let i = 1; i < dataArray.length; i++) {
 		var dataTempObject = dataArray[i].reduce(function(
 			tempObject,
