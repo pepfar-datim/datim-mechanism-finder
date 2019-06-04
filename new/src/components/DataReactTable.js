@@ -36,11 +36,12 @@ function DataReactTable(props) {
 			getTrProps={(state, rowInfo, column) => {
 				var newDate = false;
 				try {
-					let rowIndex = rowInfo.index;
+					let rowIndex = rowInfo.viewIndex;
 					if (rowIndex >= 0) {
 						if (
-							state.data[rowIndex - 1]["Date"] !==
-							rowInfo.row.Date
+							state.sortedData[rowIndex - 1]["_original"][
+								"Date"
+							] !== rowInfo.original.Date
 						) {
 							newDate = true;
 						}
