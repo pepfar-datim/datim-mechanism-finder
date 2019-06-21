@@ -13,8 +13,14 @@ function getData(array) {
 	return newData;
 }
 
-function getColumns(array) {
-	var columns = array.reduce((columnsArray, column) => {
+function getColumns(columnRow,dataRow) {
+	for(let i=columnRow.length; i<=Object.keys(dataRow).length; i++){
+		columnRow.push('undefined' + i);
+	}
+	for(let i=Object.keys(dataRow).length; i<=columnRow.length; i++){
+		columnRow.pop();
+	}
+	var columns = columnRow.reduce((columnsArray, column) => {
 		var columnProperties = {
 			Header: column,
 			accessor: column,
@@ -27,10 +33,11 @@ function getColumns(array) {
 }
 
 function DataReactTable(props) {
+	var definedColumns = getColumns(props.data[0],props.data[1]);
 	return (
 		<FoldableTable
 			data={getData(props.data)}
-			columns={getColumns(props.data[0])}
+			columns={definedColumns}
 			filterable={true}
 			defaultPageSize={5}
 			getTrProps={(state, rowInfo, column) => {
