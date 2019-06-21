@@ -8,6 +8,7 @@ function SearchBar(props) {
 			<TextField
 				id="searchTextInput"
 				value={props.searchText}
+				placeholder="Search mechanism in DATIM and FACTS info synchronization log"
 				onChange={e => props.onSearchTextChange(e.target.value)}
 				style={{ fontSize: "12px", width: "500px", padding: "5px" }}
 			/>

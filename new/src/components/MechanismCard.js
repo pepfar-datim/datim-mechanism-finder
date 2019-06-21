@@ -4,82 +4,58 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 
+import { useTheme } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/styles';
+
+import CardTable from "./CardTable.js";
+
+const useStyles = makeStyles({
+	cardStyling: {
+		minWidth: 400,
+		maxWidth: 400,
+		align: "left",
+		float: "left",
+		margin: 10,
+		height: 350,
+		whiteSpace: "normal",
+		wordWrap: "break-word",
+	}
+});
+
 function getActiveStatus(entity, entityType) {
 	if (entityType === "Mechanism") {
 		var today = new Date();
 		var start = new Date(entity.startDate);
 		var end = new Date(entity.endDate);
 		if (start <= today && today <= end) {
-			return true;
+			return 'Active';
 		}
-		return false;
+		if (today <= start){
+			return 'Will be active'
+		}
+		return 'Inactive';
 	}
 
 	return undefined;
 }
 
-function formatDate(date) {
-	if (typeof date === "string") {
-		return date.substring(0, 10);
-	}
-}
-
-function generateTable(entity, entityType, activeStatus) {
-	return (
-		<div>
-			<p>
-				<strong>name:</strong> {entity.name}
-			</p>
-			<p>
-				<strong>code:</strong> {entity.code}
-			</p>
-			{entityType !== "Mechanism" && (
-				<p>
-					<strong>created:</strong> {formatDate(entity.created)}
-				</p>
-			)}
-			{entityType === "Mechanism" && (
-				<p>
-					<strong>start:</strong> {formatDate(entity.startDate)}
-				</p>
-			)}
-			{entityType === "Mechanism" && (
-				<p>
-					<strong>end:</strong> {formatDate(entity.endDate)}
-				</p>
-			)}
-			{entityType === "Mechanism" && (
-				<p>
-					<strong>status:</strong>{" "}
-					{activeStatus ? "Active" : "Inactive"}
-				</p>
-			)}
-			<p>
-				<strong>last updated:</strong> {formatDate(entity.lastUpdated)}
-			</p>
-		</div>
-	);
-}
-
 function MechanismCard(props) {
+	const theme = useTheme();
+	const classes = useStyles();
 	var activeStatus = getActiveStatus(props.entity, props.text);
 	return (
 		<div style={{ display: "inline-block" }}>
 			<Card
+				className={classes.cardStyling}
 				style={{
-					minWidth: 400,
-					maxWidth: 400,
-					float: "left",
-					margin: 10,
-					height: 250,
-					whiteSpace: "normal",
-					wordWrap: "break-word",
 					backgroundColor:
 						typeof activeStatus === "undefined"
 							? "#HHHHHH"
-							: activeStatus
-							? "#A5D6A7"
-							: "#EF9A9A"
+							: activeStatus === 'Active'
+							? theme.okayColor
+							: activeStatus === 'Will be active'
+							? theme.futureColor
+							: theme.warningColor
 				}}
 			>
 				<CardContent>
@@ -87,7 +63,11 @@ function MechanismCard(props) {
 						<Typography variant="h5" gutterBottom>
 							{props.text}
 						</Typography>
-						{generateTable(props.entity, props.text, activeStatus)}
+						<CardTable
+							entity={props.entity}
+							entityType={props.text}
+							activeStatus={activeStatus}
+						/>
 					</div>
 				</CardContent>
 			</Card>
