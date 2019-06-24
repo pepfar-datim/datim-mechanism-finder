@@ -10,6 +10,7 @@ import { makeStyles } from "@material-ui/styles";
 const useStyles = makeStyles({
 	tableStyling: {
 		margin: "10px",
+		height: "calc(100% - 600px)"
 	}
 });
 
@@ -45,6 +46,7 @@ function DataReactTable(props) {
 	const classes = useStyles();
 	var definedColumns = getColumns(props.data[0], props.data[1]);
 	return (
+<div>
 		<FoldableTable
 			className={classes.tableStyling + ' -striped'}
 			data={getData(props.data)}
@@ -75,6 +77,7 @@ function DataReactTable(props) {
 				};
 			}}
 		/>
+</div>
 	);
 }
 

@@ -14,6 +14,7 @@ import Typography from "@material-ui/core/Typography";
 import { ThemeProvider } from "@material-ui/styles";
 
 import { getData } from "../services/getData.service.js";
+import { logicTestProdToggle } from "../services/logicTestProdToggle.service.js";
 
 const theme = {
 	warningColor: "#ffcdd2",
@@ -37,7 +38,8 @@ class Main extends React.Component {
 			mechanism: "",
 			agency: "",
 			partner: "",
-			showProgress: false
+			showProgress: false,
+			toggleEnvironment: logicTestProdToggle(process.env.NODE_ENV,window.location.href)
 		};
 		this.handleSearchChange = this.handleSearchChange.bind(this);
 		this.handleEnvironmentChange = this.handleEnvironmentChange.bind(this);
@@ -86,10 +88,12 @@ class Main extends React.Component {
 						searchText={this.state.searchText}
 						onSearchTextChange={this.handleSearchChange}
 					/>
-					<EnvironmentSelector
-						environment={this.state.environment}
-						onEnvironmentChange={this.handleEnvironmentChange}
-					/>
+					{this.state.toggleEnvironment && (
+						<EnvironmentSelector
+							environment={this.state.environment}
+							onEnvironmentChange={this.handleEnvironmentChange}
+						/>
+					)}
 					{this.state.showProgress && (
 						<ProgressNote text={this.state.searchText} />
 					)}

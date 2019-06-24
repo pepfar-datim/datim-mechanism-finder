@@ -8,8 +8,7 @@ import { makeStyles } from "@material-ui/styles";
 const useStyles = makeStyles(theme => ({
 	chipStyling: {
 		padding: "5px",
-		marginLeft: theme.spacing,
-		marginBottom: theme.spacing,
+		margin: theme.spacing,
 		textAlign: "left"
 	}
 }));
