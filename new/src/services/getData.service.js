@@ -48,7 +48,7 @@ function getMechanism(info) {
 		.then(resp => resp.json())
 		.then(result => result.categoryOptions[0])
 		.then(categoryOption => {
-			_this.setState({ searching: false });
+			_this.setState({ searching: false, showProgress: false });
 			var foundInDATIM = categoryOption ? true : false;
 			_this.setState({ foundInDATIM: foundInDATIM });
 			if (categoryOption) {
@@ -62,6 +62,7 @@ function getMechanism(info) {
 		.catch(error => {
 			_this.setState({
 				searching: false,
+				showProgress: false,
 				foundInDATIM: false
 			});
 			console.log(error);
@@ -83,7 +84,7 @@ function dataToObject(dataArray) {
 			value,
 			index
 		) {
-			var newValue = cleanValues(dataArray[0][index],value)
+			var newValue = cleanValues(dataArray[0][index], value);
 			tempObject[dataArray[0][index]] = newValue;
 			return tempObject;
 		},
@@ -94,12 +95,12 @@ function dataToObject(dataArray) {
 }
 
 function cleanValues(header, value) {
-	switch(header){
+	switch (header) {
 		case "Active":
-			return parseInt(value) === 1 ? "Active" : "Inactive"
+			return parseInt(value) === 1 ? "Active" : "Inactive";
 		case "Indigenous Partner":
-			return parseInt(value) === 1 ? "Indigenous" : "Non-indigenous"			
+			return parseInt(value) === 1 ? "Indigenous" : "Non-indigenous";
 		default:
-			return value === "NULL" ? "-" : value
+			return value === "NULL" ? "-" : value;
 	}
 }

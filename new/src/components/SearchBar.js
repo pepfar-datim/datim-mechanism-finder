@@ -8,7 +8,7 @@ const useStyles = makeStyles(theme => ({
 	searchBarStyling: {
 		fontSize: "12px",
 		width: "500px",
-		marginLeft: theme.spacing,
+		marginLeft: theme.spacing
 	}
 }));
 

@@ -7,19 +7,20 @@ import FoundSummary from "./FoundSummary.js";
 import DataTable from "./DataTable.js";
 import DataReactTable from "./DataReactTable.js";
 import MechanismCard from "./MechanismCard.js";
+import ProgressNote from "./ProgressNote.js";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 
-import { ThemeProvider } from '@material-ui/styles';
+import { ThemeProvider } from "@material-ui/styles";
 
 import { getData } from "../services/getData.service.js";
 
 const theme = {
-  warningColor: '#ffcdd2',
-  okayColor: '#c8e6c9',
-  futureColor: '#c5e3fc',
-  spacing: '10px'
-  ,
+	warningColor: "#ffcdd2",
+	okayColor: "#c8e6c9",
+	futureColor: "#c5e3fc",
+	grey: "#4a5768",
+	spacing: "10px"
 };
 
 class Main extends React.Component {
@@ -35,16 +36,18 @@ class Main extends React.Component {
 			foundInFACTS: false,
 			mechanism: "",
 			agency: "",
-			partner: ""
+			partner: "",
+			showProgress: false
 		};
 		this.handleSearchChange = this.handleSearchChange.bind(this);
 		this.handleEnvironmentChange = this.handleEnvironmentChange.bind(this);
 	}
 
-	getData() {
+	retrieveData() {
 		if (this.state.timeout) clearTimeout(this.state.timeout);
 		this.setState({
 			searching: true,
+			showProgress: false,
 			data: "",
 			foundInDATIM: false,
 			foundInFACTS: false,
@@ -53,25 +56,30 @@ class Main extends React.Component {
 			partner: "",
 			timeout: setTimeout(() => {
 				getData(this.state.searchText, this.state.environment, this);
+				this.setState({ showProgress: true });
 			}, 1000)
 		});
 	}
 
 	handleEnvironmentChange(text) {
 		this.setState({ environment: text });
-		this.getData();
+		this.retrieveData();
 	}
 
 	handleSearchChange(text) {
 		this.setState({ searchText: text });
-		this.getData();
+		this.retrieveData();
 	}
 
 	render() {
 		return (
 			<ThemeProvider theme={theme}>
 				<div>
-					<Typography variant="h5" gutterBottom style={{marginLeft: theme.spacing}}>
+					<Typography
+						variant="h5"
+						gutterBottom
+						style={{ marginLeft: theme.spacing }}
+					>
 						DATIM Mechanism Finder
 					</Typography>
 					<SearchBar
@@ -82,6 +90,10 @@ class Main extends React.Component {
 						environment={this.state.environment}
 						onEnvironmentChange={this.handleEnvironmentChange}
 					/>
+					{this.state.showProgress && (
+						<ProgressNote text={this.state.searchText} />
+					)}
+
 					{!this.state.searching && (
 						<div>
 							<FoundSummary
@@ -93,7 +105,10 @@ class Main extends React.Component {
 								this.state.partner) && (
 								<div
 									className="row"
-									style={{ whiteSpace: "nowrap", align: "left" }}
+									style={{
+										whiteSpace: "nowrap",
+										align: "left"
+									}}
 								>
 									<MechanismCard
 										text="Mechanism"
