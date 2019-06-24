@@ -17,7 +17,8 @@ import { getData } from "../services/getData.service.js";
 const theme = {
   warningColor: '#ffcdd2',
   okayColor: '#c8e6c9',
-  futureColor: '#c5e3fc'
+  futureColor: '#c5e3fc',
+  spacing: '10px'
   ,
 };
 
@@ -70,7 +71,7 @@ class Main extends React.Component {
 		return (
 			<ThemeProvider theme={theme}>
 				<div>
-					<Typography variant="h4" gutterBottom>
+					<Typography variant="h5" gutterBottom style={{marginLeft: theme.spacing}}>
 						DATIM Mechanism Finder
 					</Typography>
 					<SearchBar

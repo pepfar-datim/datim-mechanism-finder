@@ -5,6 +5,14 @@ import "react-table/react-table.css";
 
 import FoldableTableHOC from "react-table/lib/hoc/foldableTable";
 
+import { makeStyles } from "@material-ui/styles";
+
+const useStyles = makeStyles({
+	tableStyling: {
+		margin: "10px",
+	}
+});
+
 const FoldableTable = FoldableTableHOC(ReactTable);
 
 function getData(array) {
@@ -13,18 +21,19 @@ function getData(array) {
 	return newData;
 }
 
-function getColumns(columnRow,dataRow) {
-	for(let i=columnRow.length; i<=Object.keys(dataRow).length; i++){
-		columnRow.push('undefined' + i);
+function getColumns(columnRow, dataRow) {
+	for (let i = columnRow.length; i <= Object.keys(dataRow).length; i++) {
+		columnRow.push("undefined" + i);
 	}
-	for(let i=Object.keys(dataRow).length; i<=columnRow.length; i++){
+	for (let i = Object.keys(dataRow).length; i <= columnRow.length; i++) {
 		columnRow.pop();
 	}
 	var columns = columnRow.reduce((columnsArray, column) => {
 		var columnProperties = {
 			Header: column,
 			accessor: column,
-			foldable: true
+			foldable: true,
+			style: { whiteSpace: "unset", wordWrap: "break" }
 		};
 		columnsArray.push(columnProperties);
 		return columnsArray;
@@ -33,13 +42,16 @@ function getColumns(columnRow,dataRow) {
 }
 
 function DataReactTable(props) {
-	var definedColumns = getColumns(props.data[0],props.data[1]);
+	const classes = useStyles();
+	var definedColumns = getColumns(props.data[0], props.data[1]);
 	return (
 		<FoldableTable
+			className={classes.tableStyling + ' -striped'}
 			data={getData(props.data)}
 			columns={definedColumns}
 			filterable={true}
-			defaultPageSize={5}
+			defaultPageSize={100}
+			minRows={0}
 			getTrProps={(state, rowInfo, column) => {
 				var newDate = false;
 				try {
@@ -62,7 +74,6 @@ function DataReactTable(props) {
 					}
 				};
 			}}
-			className="-striped"
 		/>
 	);
 }

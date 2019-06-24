@@ -4,23 +4,23 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 
-import { useTheme } from '@material-ui/styles';
-import { makeStyles } from '@material-ui/styles';
+import { useTheme } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/styles";
 
 import CardTable from "./CardTable.js";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
 	cardStyling: {
 		minWidth: 400,
 		maxWidth: 400,
 		align: "left",
 		float: "left",
-		margin: 10,
-		height: 350,
+		margin: theme.spacing,
+		height: 300,
 		whiteSpace: "normal",
-		wordWrap: "break-word",
+		wordWrap: "break-word"
 	}
-});
+}));
 
 function getActiveStatus(entity, entityType) {
 	if (entityType === "Mechanism") {
@@ -28,12 +28,12 @@ function getActiveStatus(entity, entityType) {
 		var start = new Date(entity.startDate);
 		var end = new Date(entity.endDate);
 		if (start <= today && today <= end) {
-			return 'Active';
+			return "Active";
 		}
-		if (today <= start){
-			return 'Will be active'
+		if (today <= start) {
+			return "Will be active";
 		}
-		return 'Inactive';
+		return "Inactive";
 	}
 
 	return undefined;
@@ -51,16 +51,16 @@ function MechanismCard(props) {
 					backgroundColor:
 						typeof activeStatus === "undefined"
 							? "#HHHHHH"
-							: activeStatus === 'Active'
+							: activeStatus === "Active"
 							? theme.okayColor
-							: activeStatus === 'Will be active'
+							: activeStatus === "Will be active"
 							? theme.futureColor
 							: theme.warningColor
 				}}
 			>
 				<CardContent>
 					<div>
-						<Typography variant="h5" gutterBottom>
+						<Typography variant="h6" gutterBottom>
 							{props.text}
 						</Typography>
 						<CardTable

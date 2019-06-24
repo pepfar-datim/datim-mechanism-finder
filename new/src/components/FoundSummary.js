@@ -2,40 +2,46 @@ import React from "react";
 
 import Chip from "@material-ui/core/Chip";
 
-import { useTheme } from '@material-ui/styles';
-import { makeStyles } from '@material-ui/styles';
+import { useTheme } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/styles";
 
-const useStyles = makeStyles({
-  chipStyling: {
-    padding: '5px',
-    marginLeft: '10px',
-    textAlign: 'left',
-  }
-});
+const useStyles = makeStyles(theme => ({
+	chipStyling: {
+		padding: "5px",
+		marginLeft: theme.spacing,
+		marginBottom: theme.spacing,
+		textAlign: "left"
+	}
+}));
 
-function FoundTable(props) {
+function FoundChip(props) {
 	const classes = useStyles();
 	const theme = useTheme();
 	return (
+		<Chip
+			className={classes.chipStyling}
+			style={{
+				backgroundColor: props.foundStatus
+					? theme.okayColor
+					: theme.warningColor
+			}}
+			label={
+				props.foundStatus
+					? "Found in " + props.foundLocale
+					: "Not found in " + props.foundLocale
+			}
+		/>
+	);
+}
+
+function FoundTable(props) {
+	return (
 		<div>
-			<Chip
-				className={classes.chipStyling}
-				style={{
-					backgroundColor: props.foundInFACTS ? theme.okayColor : theme.warningColor,
-				}}
-				label={
-					props.foundInFACTS ? "Found in FACTS" : "Not found in FACTS"
-				}
+			<FoundChip
+				foundStatus={props.foundInFACTS}
+				foundLocale="FACTS Info"
 			/>
-			<Chip
-				className={classes.chipStyling}
-				style={{
-					backgroundColor: props.foundInFACTS ? theme.okayColor : theme.warningColor
-				}}
-				label={
-					props.foundInDATIM ? "Found in DATIM" : "Not found in DATIM"
-				}
-			/>
+			<FoundChip foundStatus={props.foundInDATIM} foundLocale="DATIM" />
 		</div>
 	);
 }
