@@ -1,4 +1,4 @@
 {
-  "baseUrl": "https://dev.datim.org/",
+  "baseUrl": "../../../api/",
   "apiVersion": "29"
 }

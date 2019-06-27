@@ -1,9 +1,12 @@
 {
-  "name": "new",
-  "version": "0.1.0",
+  "name": "mechanism-finder",
+  "version": "29.3.0",
   "private": true,
   "dependencies": {
+    "@dhis2/d2-ui-header-bar": "^5.3.11",
     "@material-ui/styles": "^4.1.1",
+    "d2": "^31.8.1",
+    "d2-ui": "^29.0.33",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.0",
@@ -12,13 +15,14 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build:react": "react-scripts build",
+    "build:zip": "(rm -f mechanism-finder.zip && cd build && zip ../mechanism-finder.zip -r .)",
+    "build": "npm run build:react && npm run build:zip"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
+  "homepage": ".",
   "browserslist": {
     "production": [
       ">0.2%",

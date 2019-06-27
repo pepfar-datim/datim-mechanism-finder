@@ -4,11 +4,9 @@ import "./Main.css";
 import SearchBar from "./SearchBar.js";
 import EnvironmentSelector from "./EnvironmentSelector.js";
 import FoundSummary from "./FoundSummary.js";
-import DataTable from "./DataTable.js";
 import DataReactTable from "./DataReactTable.js";
 import MechanismCard from "./MechanismCard.js";
 import ProgressNote from "./ProgressNote.js";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 
 import { ThemeProvider } from "@material-ui/styles";
@@ -39,7 +37,7 @@ class Main extends React.Component {
 			agency: "",
 			partner: "",
 			showProgress: false,
-			toggleEnvironment: logicTestProdToggle(process.env.NODE_ENV,window.location.href)
+			toggleEnvironment: logicTestProdToggle(process.env.NODE_ENV,window.location.host)
 		};
 		this.handleSearchChange = this.handleSearchChange.bind(this);
 		this.handleEnvironmentChange = this.handleEnvironmentChange.bind(this);
