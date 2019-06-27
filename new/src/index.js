@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from 'react-dom';
-import ThemeWrapper from "./components/ThemeWrapper.js";
+import Main from "./components/Main.js";
 import {generateUrlD2} from "./services/getUrl.service";
 import { init, config } from 'd2';
 //import HeaderBar from '@dhis2/d2-ui-header-bar';
@@ -15,7 +15,7 @@ function Dhis2Wrapper(props){
             
             </span>
             <br/><br/><br/>
-            <ThemeWrapper/>
+            <Main />
         </React.Fragment>
     );
 }
