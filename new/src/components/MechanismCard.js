@@ -22,27 +22,10 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-function getActiveStatus(entity, entityType) {
-	if (entityType === "Mechanism") {
-		var today = new Date();
-		var start = new Date(entity.startDate);
-		var end = new Date(entity.endDate);
-		if (start <= today && today <= end) {
-			return "Active";
-		}
-		if (today <= start) {
-			return "Will be active";
-		}
-		return "Inactive";
-	}
-
-	return undefined;
-}
-
 function MechanismCard(props) {
 	const theme = useTheme();
 	const classes = useStyles();
-	var activeStatus = getActiveStatus(props.entity, props.text);
+	var activeStatus = props.mechStatus;
 	return (
 		<div style={{ display: "inline-block" }}>
 			<Card
@@ -53,7 +36,7 @@ function MechanismCard(props) {
 							? "#HHHHHH"
 							: activeStatus === "Active"
 							? theme.okayColor
-							: activeStatus === "Will be active"
+							: activeStatus === "Will be active in future"
 							? theme.futureColor
 							: theme.warningColor
 				}}

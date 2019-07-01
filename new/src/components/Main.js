@@ -33,6 +33,7 @@ class Main extends React.Component {
 			searching: true,
 			foundInDATIM: false,
 			foundInFACTS: false,
+			mechStatus: '',
 			mechanism: "",
 			agency: "",
 			partner: "",
@@ -115,14 +116,17 @@ class Main extends React.Component {
 									<MechanismCard
 										text="Mechanism"
 										entity={this.state.mechanism}
+										mechStatus={this.state.mechStatus}
 									/>
 									<MechanismCard
 										text="Agency"
 										entity={this.state.agency}
+										mechStatus={this.state.mechStatus}
 									/>
 									<MechanismCard
 										text="Partner"
 										entity={this.state.partner}
+										mechStatus={this.state.mechStatus}
 									/>
 								</div>
 							)}

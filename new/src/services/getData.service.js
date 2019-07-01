@@ -53,6 +53,7 @@ function getMechanism(info) {
 			_this.setState({ foundInDATIM: foundInDATIM });
 			if (categoryOption) {
 				_this.setState({ mechanism: categoryOption });
+				_this.setState({mechStatus: getActiveStatus(categoryOption)})
 				_this.setState({ agency: getEntity(categoryOption, "Agency") });
 				_this.setState({
 					partner: getEntity(categoryOption, "Partner")
@@ -103,4 +104,17 @@ function cleanValues(header, value) {
 		default:
 			return value === "NULL" ? "-" : value;
 	}
+}
+
+function getActiveStatus(entity) {
+	var today = new Date();
+	var start = new Date(entity.startDate);
+	var end = new Date(entity.endDate);
+	if (start <= today && today <= end) {
+		return "Active";
+	}
+	if (today <= start) {
+		return "Will be active in future";
+	}
+	return "Inactive";
 }
