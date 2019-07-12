@@ -82,9 +82,8 @@
                 <tr ng-repeat="line in wimm.resultList track by $index"
                     ng-class-odd="'odd'"
                     ng-class-even="'even'">
-                    <td ng-repeat="value in line track by $index" ng-class="{'longtext-field': $index === 6 || $index === 7 || $index === 8}" ng-click="wimm.setSearchString(value)" title="{{value}}">
-                        <span ng-show="!$last" ng-bind="value"></span>
-                        <span ng-show="$last"><i class="fa" ng-class="{'fa-check': value === 1, 'fa-times': value === 0}"></i></span>
+                    <td ng-repeat="value in line track by $index" ng-class="{'longtext-field': $index === 6 || $index === 7 || $index === 8}" title="{{value}}">
+                        <span ng-bind="value"></span>
                     </td>
                 </tr>
                 </tbody>

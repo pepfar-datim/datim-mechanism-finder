@@ -112,10 +112,6 @@ class WhereIsMyMechController {
         return {
             headers: headers,
             lines: lines
-                .map(line => {
-                    line[line.length - 1] =  parseInt(line[line.length - 1], 10);
-                    return line;
-                })
         };
     }
 
