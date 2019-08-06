@@ -9,10 +9,20 @@ import MechanismCard from "./MechanismCard.js";
 import ProgressNote from "./ProgressNote.js";
 import Typography from "@material-ui/core/Typography";
 
-import { ThemeProvider } from "@material-ui/styles";
-
 import { getData } from "../services/getData.service.js";
 import { logicTestProdToggle } from "../services/logicTestProdToggle.service.js";
+
+import { ThemeProvider } from "@material-ui/styles";
+
+import { withStyles } from "@material-ui/styles";
+
+const styles = {
+    root: {
+        paddingTop: "10px",
+        paddingBottom: "10px",
+        margin: "10px"
+    },
+};
 
 const theme = {
 	warningColor: "#ffcdd2",
@@ -23,6 +33,7 @@ const theme = {
 };
 
 class Main extends React.Component {
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -58,7 +69,7 @@ class Main extends React.Component {
 			timeout: setTimeout(() => {
 				getData(this.state.searchText, this.state.environment, this);
 				this.setState({ showProgress: true });
-			}, 1000)
+			}, 1000) 
 		});
 	}
 
@@ -75,7 +86,7 @@ class Main extends React.Component {
 	render() {
 		return (
 			<ThemeProvider theme={theme}>
-				<div>
+				<div className={this.props.classes.root}>
 					<Typography
 						variant="h5"
 						gutterBottom
@@ -141,4 +152,5 @@ class Main extends React.Component {
 	}
 }
 
-export default Main;
+export default withStyles(styles)(Main);
+

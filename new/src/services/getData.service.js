@@ -45,10 +45,13 @@ function getMechanism(info) {
 	var url = generateUrlMechanism(mechanismCode);
 
 	fetch(url, { credentials: "include" })
-		.then(resp => resp.json())
-		.then(result => result.categoryOptions[0])
+		.then(resp => {
+			return resp.json()
+		})
+		.then(result => {
+			return result.categoryOptions[0]
+		})
 		.then(categoryOption => {
-			_this.setState({ searching: false, showProgress: false });
 			var foundInDATIM = categoryOption ? true : false;
 			_this.setState({ foundInDATIM: foundInDATIM });
 			if (categoryOption) {
@@ -59,6 +62,10 @@ function getMechanism(info) {
 					partner: getEntity(categoryOption, "Partner")
 				});
 			}
+			return true
+		})
+		.then(finished => {
+			_this.setState({ searching: false, showProgress: false })
 		})
 		.catch(error => {
 			_this.setState({
@@ -86,10 +93,15 @@ function dataToObject(dataArray) {
 			index
 		) {
 			var newValue = cleanValues(dataArray[0][index], value);
-			tempObject[dataArray[0][index]] = newValue;
+			if (dataArray[0].length > index) {
+				tempObject[dataArray[0][index]] = newValue;
+			}
 			return tempObject;
 		},
 		{});
+		for (let j = Object.keys(dataTempObject).length; j<dataArray[0].length; j++) {
+			dataTempObject[dataArray[0][j]] = "-";
+		}
 		dataArray[i] = dataTempObject;
 	}
 	return dataArray;
