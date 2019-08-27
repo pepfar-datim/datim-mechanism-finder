@@ -4,14 +4,11 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
+import Typography from "@material-ui/core/Typography";
 
-import { makeStyles } from "@material-ui/styles";
-
-const useStyles = makeStyles({
-	rowStyling: {
+const rowStyling = {
 		height: "30px"
 	}
-});
 
 function formatDate(date) {
 	if (typeof date === "string") {
@@ -20,82 +17,127 @@ function formatDate(date) {
 }
 
 function CardTable(props) {
-	const classes = useStyles();
 	return (
-		<Table>
+		<Table style={{whiteSpace: "pre-line"}}>
 			<TableBody>
 				<TableRow
-					className={classes.rowStyling}
+					style={rowStyling}
 					hover={true}
 					key={"name.row"}
 				>
-					<TableCell key="name.name">name</TableCell>
-					<TableCell key="name.value">{props.entity.name}</TableCell>
+					<TableCell key="name.name" style={{"width":"60px"}}>
+						<Typography variant="body1" gutterBottom>
+							name
+						</Typography>
+					</TableCell>
+					<TableCell key="name.value">
+						<Typography variant="body1" gutterBottom>
+							{props.entity.name}
+						</Typography>
+					</TableCell>
 				</TableRow>
 				<TableRow
-					className={classes.rowStyling}
+					style={rowStyling}
 					hover={true}
 					key={"code.row"}
 				>
-					<TableCell key="code.name">code</TableCell>
-					<TableCell key="code.value">{props.entity.code}</TableCell>
+					<TableCell key="code.name" style={{"width":"60px"}}>
+						<Typography variant="body1" gutterBottom>
+							code
+						</Typography>
+					</TableCell>
+					<TableCell key="code.value">
+						<Typography variant="body1" gutterBottom>
+							{props.entity.code}
+						</Typography>
+					</TableCell>
 				</TableRow>
 
 				<TableRow
-					className={classes.rowStyling}
+					style={rowStyling}
 					hover={true}
 					key={"lastUpdated.row"}
 				>
-					<TableCell key="lastUpdated.name">last updated</TableCell>
+					<TableCell key="lastUpdated.name" style={{"width":"62px"}}>
+						<Typography variant="body1" gutterBottom>
+							{"last\nupdated"}
+						</Typography>
+					</TableCell>
 					<TableCell key="lastUpdated.value">
-						{formatDate(props.entity.lastUpdated)}
+						<Typography variant="body1" gutterBottom>
+							{formatDate(props.entity.lastUpdated)}
+						</Typography>
 					</TableCell>
 				</TableRow>
 				{props.entityType !== "Mechanism" && (
 					<TableRow
-						className={classes.rowStyling}
+						style={rowStyling}
 						hover={true}
 						key={"created.row"}
 					>
-						<TableCell key="created.name">created</TableCell>
+						<TableCell key="created.name" style={{"width":"60px"}}>
+							<Typography variant="body1" gutterBottom>
+								created
+							</Typography>
+						</TableCell>
 						<TableCell key="created.value">
-							{formatDate(props.entity.created)}
+							<Typography variant="body1" gutterBottom>
+								{formatDate(props.entity.created)}
+							</Typography>
 						</TableCell>
 					</TableRow>
 				)}
 				{props.entityType === "Mechanism" && (
 					<TableRow
-						className={classes.rowStyling}
+						style={rowStyling}
 						hover={true}
 						key={"startDate.row"}
 					>
-						<TableCell key="startDate.name">start</TableCell>
+						<TableCell key="startDate.name" style={{"width":"60px"}}>
+							<Typography variant="body1" gutterBottom>
+								start date
+							</Typography>
+						</TableCell>
 						<TableCell key="startDate.value">
-							{formatDate(props.entity.startDate)}
+							<Typography variant="body1" gutterBottom noWrap>
+								{formatDate(props.entity.startDate)}
+							</Typography>
 						</TableCell>
 					</TableRow>
 				)}
 				{props.entityType === "Mechanism" && (
 					<TableRow
-						className={classes.rowStyling}
+						style={rowStyling}
 						hover={true}
 						key={"endDate.row"}
 					>
-						<TableCell key="endDate.name">end</TableCell>
-						<TableCell key="endDate.value">
-							{formatDate(props.entity.endDate)}
+						<TableCell key="end.name" style={{"width":"60px"}}>
+							<Typography variant="body1" gutterBottom inline>
+								end date
+							</Typography>
+						</TableCell>
+						<TableCell key="lastupdated.value">
+							<Typography variant="body1" gutterBottom>
+								{formatDate(props.entity.endDate)}
+							</Typography>
 						</TableCell>
 					</TableRow>
 				)}
 				{props.entityType === "Mechanism" && (
 					<TableRow
-						className={classes.rowStyling}
+						style={rowStyling}
 						hover={true}
 						key={"status.row"}
 					>
-						<TableCell key="activeStatus.name">active</TableCell>
+						<TableCell key="activeStatus.name" style={{"width":"60px"}}>
+							<Typography variant="body1" gutterBottom>
+								active
+							</Typography>
+						</TableCell>
 						<TableCell key="activeStatus.value">
-							{props.activeStatus}
+							<Typography variant="body1" gutterBottom>
+								{props.activeStatus}
+							</Typography>
 						</TableCell>
 					</TableRow>
 				)}

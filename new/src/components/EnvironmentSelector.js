@@ -4,20 +4,15 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
-import { makeStyles } from '@material-ui/styles';
-
-const useStyles = makeStyles({
-  radioStyling: {
-    padding: '5px',
-    marginLeft: '10px',
-  }
-});
 
 function EnvironmentSelector(props) {
-	const classes = useStyles();
 	return (
 		<div>
-			<RadioGroup className={classes.radioStyling}
+			<RadioGroup 
+				style ={{
+					padding: '5px',
+					marginLeft: '10px'
+				}}
 				aria-label="environment"
 				name="environmentSelector"
 				value={props.environment}

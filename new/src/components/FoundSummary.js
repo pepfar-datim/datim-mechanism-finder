@@ -2,27 +2,20 @@ import React from "react";
 
 import Chip from "@material-ui/core/Chip";
 
-import { useTheme } from "@material-ui/styles";
-import { makeStyles } from "@material-ui/styles";
+const theme = require('./theme.js');
 
-const useStyles = makeStyles(theme => ({
-	chipStyling: {
-		padding: "5px",
-		margin: theme.spacing,
-		textAlign: "left"
-	}
-}));
 
 function FoundChip(props) {
-	const classes = useStyles();
-	const theme = useTheme();
+
 	return (
 		<Chip
-			className={classes.chipStyling}
 			style={{
+				padding: "5px",
+				margin: theme.spacing.spacing,
+				textAlign: "left",				
 				backgroundColor: props.foundStatus
-					? theme.okayColor
-					: theme.warningColor
+					? theme.colors.okayColor
+					: theme.colors.warningColor
 			}}
 			label={
 				props.foundStatus

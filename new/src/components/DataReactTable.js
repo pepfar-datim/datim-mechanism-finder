@@ -5,15 +5,6 @@ import "react-table/react-table.css";
 
 import FoldableTableHOC from "react-table/lib/hoc/foldableTable";
 
-import { makeStyles } from "@material-ui/styles";
-
-const useStyles = makeStyles({
-	tableStyling: {
-		margin: "10px",
-		height: "calc(100% - 600px)"
-	}
-});
-
 const FoldableTable = FoldableTableHOC(ReactTable);
 
 function getData(array) {
@@ -23,6 +14,7 @@ function getData(array) {
 }
 
 function getColumns(columnRow, dataRow) {
+	var wideColumns = {"Legacy Partner Name": true, "IM": true};
 	for (let i = columnRow.length; i <= Object.keys(dataRow).length; i++) {
 		columnRow.push("undefined" + i);
 	}
@@ -34,8 +26,10 @@ function getColumns(columnRow, dataRow) {
 			Header: column,
 			accessor: column,
 			foldable: true,
-			style: { whiteSpace: "unset", wordWrap: "break" }
+			style: { whiteSpace: "unset", wordWrap: "break" },
+			width: "100"
 		};
+		if (wideColumns.hasOwnProperty(column)) {columnProperties.width = "200"}
 		columnsArray.push(columnProperties);
 		return columnsArray;
 	}, []);
@@ -43,12 +37,14 @@ function getColumns(columnRow, dataRow) {
 }
 
 function DataReactTable(props) {
-	const classes = useStyles();
 	var definedColumns = getColumns(props.data[0], props.data[1]);
 	return (
 <div>
 		<FoldableTable
-			className={classes.tableStyling + ' -striped'}
+			style={{
+				margin: "10px",
+				height: "calc(100% - 600px)"
+			}}
 			data={getData(props.data)}
 			columns={definedColumns}
 			filterable={true}

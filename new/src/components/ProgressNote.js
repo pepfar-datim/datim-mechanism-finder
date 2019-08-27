@@ -2,25 +2,24 @@ import React from "react";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import { makeStyles } from "@material-ui/styles";
+const theme = require('./theme.js');
 
-const useStyles = makeStyles(theme => ({
-	progressStyling: {
-		marginLeft: theme.spacing
-	},
-	circle: {
-		color: theme.grey
-	}
-}));
 
 function ProgressNote(props) {
-	const classes = useStyles();
 	return (
-		<div className={classes.progressStyling}>
+		<div 
+			style = {{
+				marginLeft: theme.spacing.spacing
+			}}
+		>
 			<p>
 				{"Trying to find mechanism with mechanism code: " + props.text}
 			</p>
-			<CircularProgress className={classes.circle} />
+			<CircularProgress 
+				style = {{
+					color: theme.colors.grey
+				}}
+			/>
 		</div>
 	);
 }

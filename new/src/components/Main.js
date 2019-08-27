@@ -12,9 +12,10 @@ import Typography from "@material-ui/core/Typography";
 import { getData } from "../services/getData.service.js";
 import { logicTestProdToggle } from "../services/logicTestProdToggle.service.js";
 
-import { ThemeProvider } from "@material-ui/styles";
-
 import { withStyles } from "@material-ui/styles";
+
+const theme = require('./theme.js');
+
 
 const styles = {
     root: {
@@ -22,14 +23,6 @@ const styles = {
         paddingBottom: "10px",
         margin: "10px"
     },
-};
-
-const theme = {
-	warningColor: "#ffcdd2",
-	okayColor: "#c8e6c9",
-	futureColor: "#c5e3fc",
-	grey: "#4a5768",
-	spacing: "10px"
 };
 
 class Main extends React.Component {
@@ -85,72 +78,69 @@ class Main extends React.Component {
 
 	render() {
 		return (
-			<ThemeProvider theme={theme}>
-				<div className={this.props.classes.root}>
-					<Typography
-						variant="h5"
-						gutterBottom
-						style={{ marginLeft: theme.spacing }}
-					>
-						DATIM Mechanism Finder
-					</Typography>
-					<SearchBar
-						searchText={this.state.searchText}
-						onSearchTextChange={this.handleSearchChange}
+			<div className={this.props.classes.root}>
+				<Typography
+					variant="h5"
+					gutterBottom
+					style={{ marginLeft: theme.spacing.spacing }}
+				>
+					DATIM Mechanism Finder
+				</Typography>
+				<SearchBar
+					searchText={this.state.searchText}
+					onSearchTextChange={this.handleSearchChange}
+				/>
+				{this.state.toggleEnvironment && (
+					<EnvironmentSelector
+						environment={this.state.environment}
+						onEnvironmentChange={this.handleEnvironmentChange}
 					/>
-					{this.state.toggleEnvironment && (
-						<EnvironmentSelector
-							environment={this.state.environment}
-							onEnvironmentChange={this.handleEnvironmentChange}
-						/>
-					)}
-					{this.state.showProgress && (
-						<ProgressNote text={this.state.searchText} />
-					)}
+				)}
+				{this.state.showProgress && (
+					<ProgressNote text={this.state.searchText} />
+				)}
 
-					{!this.state.searching && (
-						<div>
-							<FoundSummary
-								foundInFACTS={this.state.foundInFACTS}
-								foundInDATIM={this.state.foundInDATIM}
-							/>
-							{(this.state.mechanism ||
-								this.state.agency ||
-								this.state.partner) && (
-								<div
-									className="row"
-									style={{
-										whiteSpace: "nowrap",
-										align: "left"
-									}}
-								>
-									<MechanismCard
-										text="Mechanism"
-										entity={this.state.mechanism}
-										mechStatus={this.state.mechStatus}
-									/>
-									<MechanismCard
-										text="Agency"
-										entity={this.state.agency}
-										mechStatus={this.state.mechStatus}
-									/>
-									<MechanismCard
-										text="Partner"
-										entity={this.state.partner}
-										mechStatus={this.state.mechStatus}
-									/>
-								</div>
-							)}
-							{this.state.data.length > 1 && (
-								<DataReactTable data={this.state.data} />
-							)}
-						</div>
-					)}
-				</div>
-			</ThemeProvider>
+				{!this.state.searching && (
+					<div>
+						<FoundSummary
+							foundInFACTS={this.state.foundInFACTS}
+							foundInDATIM={this.state.foundInDATIM}
+						/>
+						{(this.state.mechanism ||
+							this.state.agency ||
+							this.state.partner) && (
+							<div
+								className="row"
+								style={{
+									whiteSpace: "nowrap",
+									align: "left"
+								}}
+							>
+								<MechanismCard
+									text="Mechanism"
+									entity={this.state.mechanism}
+									mechStatus={this.state.mechStatus}
+								/>
+								<MechanismCard
+									text="Agency"
+									entity={this.state.agency}
+									mechStatus={this.state.mechStatus}
+								/>
+								<MechanismCard
+									text="Partner"
+									entity={this.state.partner}
+									mechStatus={this.state.mechStatus}
+								/>
+							</div>
+						)}
+						{this.state.data.length > 1 && (
+							<DataReactTable data={this.state.data} />
+						)}
+					</div>
+				)}
+			</div>
 		);
 	}
 }
 
 export default withStyles(styles)(Main);
-
