@@ -27,9 +27,9 @@ function getColumns(columnRow, dataRow) {
 			accessor: column,
 			foldable: true,
 			style: { whiteSpace: "unset", wordWrap: "break" },
-			width: "100"
+			width: 100
 		};
-		if (wideColumns.hasOwnProperty(column)) {columnProperties.width = "200"}
+		if (wideColumns.hasOwnProperty(column)) {columnProperties.width = 200;}
 		columnsArray.push(columnProperties);
 		return columnsArray;
 	}, []);
@@ -43,7 +43,7 @@ function DataReactTable(props) {
 		<FoldableTable
 			style={{
 				margin: "10px",
-				height: "calc(100% - 600px)"
+				height: "calc(100% - 600px)",
 			}}
 			data={getData(props.data)}
 			columns={definedColumns}
