@@ -1,0 +1,20 @@
+{
+  "launch_path": "index.html",
+  "default_locale": "en",
+  "activities": {
+    "dhis": {
+      "href": "*"
+    }
+  },
+  "appType": "APP",
+  "name": "NEW DATIM Mechanism Finder",
+  "version": "29.3.0",
+  "description": "DATIM application to find a mechanism",
+  "developer": {
+    "name": "Thomas Zemp",
+    "email": "tzemp@baosystems.com"
+  },
+  "icons": {
+    "48": "icon.png"
+  }
+}
