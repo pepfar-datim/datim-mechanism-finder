@@ -19,6 +19,7 @@
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.0",
     "react-table": "^6.10.0",
+    "react-tooltip": "^3.11.1",
     "typeface-roboto": "0.0.54"
   },
   "scripts": {
