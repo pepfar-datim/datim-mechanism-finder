@@ -46,6 +46,7 @@ class Main extends React.Component {
 		};
 		this.handleSearchChange = this.handleSearchChange.bind(this);
 		this.handleEnvironmentChange = this.handleEnvironmentChange.bind(this);
+		this.setMinHeight = this.setMinHeight.bind(this);
 	}
 
 	retrieveData() {
@@ -59,6 +60,7 @@ class Main extends React.Component {
 			mechanism: "",
 			agency: "",
 			partner: "",
+			cardHeight: 320,
 			timeout: setTimeout(() => {
 				getData(this.state.searchText, this.state.environment, this);
 				this.setState({ showProgress: true });
@@ -74,6 +76,12 @@ class Main extends React.Component {
 	handleSearchChange(text) {
 		this.setState({ searchText: text });
 		this.retrieveData();
+	}
+
+	setMinHeight(renderedHeight) {
+		if (renderedHeight > this.state.cardHeight) {
+			this.setState({cardHeight: renderedHeight})
+		}
 	}
 
 	render() {
@@ -120,16 +128,22 @@ class Main extends React.Component {
 									text="Mechanism"
 									entity={this.state.mechanism}
 									mechStatus={this.state.mechStatus}
+									cardHeight={this.state.cardHeight}
+									setMinHeight={this.setMinHeight}
 								/>
 								<MechanismCard
 									text="Agency"
 									entity={this.state.agency}
 									mechStatus={this.state.mechStatus}
+									cardHeight={this.state.cardHeight}
+									setMinHeight={this.setMinHeight}
 								/>
 								<MechanismCard
 									text="Partner"
 									entity={this.state.partner}
 									mechStatus={this.state.mechStatus}
+									cardHeight={this.state.cardHeight}
+									setMinHeight={this.setMinHeight}
 								/>
 							</div>
 						)}

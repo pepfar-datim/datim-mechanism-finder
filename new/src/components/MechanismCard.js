@@ -8,45 +8,61 @@ import CardTable from "./CardTable.js";
 
 const theme = require('./theme.js');
 
-function MechanismCard(props) {
-	var activeStatus = props.mechStatus;
-	return (
-		<div style={{ display: "inline-block" }}>
-			<Card
-				style={{
-					minWidth: 400,
-					maxWidth: 400,
-					align: "left",
-					float: "left",
-					margin: theme.spacing.spacing,
-					height: 320,
-					whiteSpace: "normal",
-					wordWrap: "break-word",
-					backgroundColor:
-						typeof activeStatus === "undefined"
-							? "#HHHHHH"
-							: activeStatus === "Active"
-							? theme.colors.okayColor
-							: activeStatus === "Will be active in future"
-							? theme.colors.futureColor
-							: theme.colors.warningColor
-				}}
-			>
-				<CardContent>
-					<div>
-						<Typography variant="h6" gutterBottom>
-							{props.text}
-						</Typography>
-						<CardTable
-							entity={props.entity}
-							entityType={props.text}
-							activeStatus={activeStatus}
-						/>
-					</div>
-				</CardContent>
-			</Card>
-		</div>
-	);
+class MechanismCard extends React.Component {
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			searchText: "",
+		};
+	}
+
+	componentDidMount() {
+	    var height = this.divElement.clientHeight;
+	    height = height - (2 * parseInt(theme.spacing.spacing.replace('px','')))
+	    this.props.setMinHeight(height)
+	}
+
+	render() {
+		var activeStatus = this.props.mechStatus;
+		return (
+			<div ref={ (divElement) => this.divElement = divElement} style={{ display: "inline-block" }}>
+				<Card
+					style={{
+						minWidth: 400,
+						maxWidth: 400,
+						align: "left",
+						float: "left",
+						margin: theme.spacing.spacing,
+						minHeight: this.props.cardHeight,
+						whiteSpace: "normal",
+						wordWrap: "break-word",
+						backgroundColor:
+							typeof activeStatus === "undefined"
+								? "#HHHHHH"
+								: activeStatus === "Active"
+								? theme.colors.okayColor
+								: activeStatus === "Will be active in future"
+								? theme.colors.futureColor
+								: theme.colors.warningColor
+					}}
+				>
+					<CardContent>
+						<div>
+							<Typography variant="h6" gutterBottom>
+								{this.props.text}
+							</Typography>
+							<CardTable
+								entity={this.props.entity}
+								entityType={this.props.text}
+								activeStatus={activeStatus}
+							/>
+						</div>
+					</CardContent>
+				</Card>
+			</div>
+		);
+	}
 }
 
 export default MechanismCard;
