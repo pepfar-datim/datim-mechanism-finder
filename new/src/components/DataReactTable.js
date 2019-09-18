@@ -4,6 +4,7 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 
 import FoldableTableHOC from "react-table/lib/hoc/foldableTable";
+import ReactTooltip from 'react-tooltip'
 
 const FoldableTable = FoldableTableHOC(ReactTable);
 
@@ -13,8 +14,14 @@ function getData(array) {
 	return newData;
 }
 
+function MyCell(column) {
+  return <span title={column}>{column}</span>
+}
+
 function getColumns(columnRow, dataRow) {
+	const headerStyle = "{white-space: pre-line !important;word-wrap: break-word;}"
 	var wideColumns = {"Legacy Partner Name": true, "IM": true};
+	var hiddenColumns = {"Legacy Partner Name": true, "Legacy ID": true, "Legacy Partner ID": true, "Legacy Partner Organization Type ID": true};
 	for (let i = columnRow.length; i <= Object.keys(dataRow).length; i++) {
 		columnRow.push("undefined" + i);
 	}
@@ -23,13 +30,14 @@ function getColumns(columnRow, dataRow) {
 	}
 	var columns = columnRow.reduce((columnsArray, column) => {
 		var columnProperties = {
-			Header: column,
+			Header: <div data-tip={column}>{column}<ReactTooltip place="top" type="dark" effect="float"/></div>,
 			accessor: column,
 			foldable: true,
-			style: { whiteSpace: "unset", wordWrap: "break" },
+			style: { 'whiteSpace': 'unset'},
 			width: 100
 		};
 		if (wideColumns.hasOwnProperty(column)) {columnProperties.width = 200;}
+		if (hiddenColumns.hasOwnProperty(column)) {columnProperties.show = false;}
 		columnsArray.push(columnProperties);
 		return columnsArray;
 	}, []);
@@ -39,7 +47,8 @@ function getColumns(columnRow, dataRow) {
 function DataReactTable(props) {
 	var definedColumns = getColumns(props.data[0], props.data[1]);
 	return (
-<div>
+	<div>	
+		
 		<FoldableTable
 			style={{
 				margin: "10px",
