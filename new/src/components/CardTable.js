@@ -10,6 +10,12 @@ const rowStyling = {
 		height: "30px"
 	}
 
+const codeNames = {
+	Mechanism: 'HQ ID',
+	Partner: 'partner\nDUNS',
+	Agency: 'code',
+}
+
 function formatDate(date) {
 	if (typeof date === "string") {
 		return date.substring(0, 10);
@@ -43,7 +49,7 @@ function CardTable(props) {
 				>
 					<TableCell key="code.name" style={{"width":"60px"}}>
 						<Typography variant="body1" gutterBottom>
-							code
+							{codeNames[props.entityType]}
 						</Typography>
 					</TableCell>
 					<TableCell key="code.value">
@@ -60,7 +66,7 @@ function CardTable(props) {
 				>
 					<TableCell key="lastUpdated.name" style={{"width":"62px"}}>
 						<Typography variant="body1" gutterBottom>
-							{"last\nupdated"}
+							{"last\nupdated\nin DATIM"}
 						</Typography>
 					</TableCell>
 					<TableCell key="lastUpdated.value">
