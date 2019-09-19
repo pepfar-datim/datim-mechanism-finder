@@ -7,8 +7,8 @@
     }
   },
   "appType": "APP",
-  "name": "NEW DATIM Mechanism Finder",
-  "version": "29.3.0",
+  "name": "Mechanism Finder",
+  "version": "30.3.0",
   "description": "DATIM application to find a mechanism",
   "developer": {
     "name": "Thomas Zemp",
