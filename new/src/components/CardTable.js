@@ -11,7 +11,7 @@ const rowStyling = {
 	}
 
 const codeNames = {
-	Mechanism: 'HQ ID',
+	Mechanism: 'mech ID',
 	Partner: 'partner\nDUNS',
 	Agency: 'code',
 }
