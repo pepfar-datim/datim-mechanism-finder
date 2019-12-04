@@ -8,7 +8,6 @@ import "./index.css";
 import NetworkError from "./utils/networkError.component";
 
 function Dhis2Wrapper(props){
-    console.log(props.d2);
     if (!props.d2) return null;
     return (
         <React.Fragment>

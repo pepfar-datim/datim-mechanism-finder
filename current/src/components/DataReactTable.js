@@ -14,10 +14,6 @@ function getData(array) {
 	return newData;
 }
 
-function MyCell(column) {
-  return <span title={column}>{column}</span>
-}
-
 function organizeColumns(columnRow, dataRow) {
 	var idealOrder = ["Date","OU","OU Country Code","FY","Reporting Cycle","HQ ID","IM","Agency","Award Number","Partner Name","Partner DUNS","Start Date","End Date","Active","Partner Country","Indigenous Partner","Organization Type","Legacy ID","Legacy Partner Name","Legacy Partner ID","Legacy Partner Organization Type ID"];
 
@@ -48,7 +44,6 @@ function organizeColumns(columnRow, dataRow) {
 }
 
 function getColumns(columnRow, dataRow) {
-	const headerStyle = "{white-space: pre-line !important;word-wrap: break-word;}"
 	var wideColumns = {"Legacy Partner Name": true, "IM": true};
 
 	columnRow = organizeColumns(columnRow, dataRow);

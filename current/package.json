@@ -1,6 +1,6 @@
 {
   "name": "datim-mechanism-finder",
-  "version": "0.1.0",
+  "version": "30.3.1",
   "private": true,
   "dependencies": {
     "@dhis2/d2-ui-header-bar": "5.3.11",

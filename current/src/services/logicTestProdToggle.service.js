@@ -3,7 +3,7 @@ export function logicTestProdToggle(environment, host) {
 		if (
 			/datim\.org$/.test(host) &&
 			host !== "www.datim.org" &&
-			host !== "triage.datim.org"
+			host !== "triage.testing.datim.org"
 		) {
 			return true;
 		}
