@@ -9,7 +9,7 @@ export function generateUrlMechanism(mechanismCode) {
 	const endpoint =
 		"/categoryOptions.json?paging=false&fields=:owner,displayName,name,categories[:owner],categoryOptionCombos[:owner],categoryOptionGroups[:owner],organisationUnits[:owner]";
 	const filter = "filter=code:eq:" + mechanismCode;
-	return serverConfig.baseUrl + endpoint + "&" + filter;
+	return serverConfig.baseUrl + "api/" + serverConfig.apiVersion + endpoint + "&" + filter;
 }
 
 export function generateUrlD2(){

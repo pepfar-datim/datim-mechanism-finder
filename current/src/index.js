@@ -3,29 +3,29 @@ import { render } from 'react-dom';
 import Main from "./components/Main.js";
 import {generateUrlD2} from "./services/getUrl.service";
 import { init, config } from 'd2';
-import HeaderBar from '@dhis2/d2-ui-header-bar';
 import "./index.css";
 import NetworkError from "./utils/networkError.component";
+import {HeaderBar} from '@dhis2/ui-widgets'
+import {Provider} from '@dhis2/app-runtime'
 
-function Dhis2Wrapper(props){
-    if (!props.d2) return null;
+const baseUrl = generateUrlD2();
+config.baseUrl = generateUrlD2() + 'api';
+config.i18n.sources.add('i18n.txt');
+
+function Dhis2(){
     return (
-        <React.Fragment>
+        <Provider config={{baseUrl: baseUrl, apiVersion: '30'}}>
             <span id='dhis2HeaderBar'>
-                <HeaderBar d2={props.d2}/>
+                <HeaderBar/>
             </span>
-            <br/><br/><br/>
             <Main />
-        </React.Fragment>
+            <br/><br/><br/>
+        </Provider>
     );
 }
 
-config.baseUrl = generateUrlD2();
-
-config.i18n.sources.add('i18n.txt');
-
 init().then(d2 => {
-    render(<Dhis2Wrapper appName={'DATIM Mechanism Finder'} d2={d2}/>, document.getElementById('root'));
+    render(<Dhis2 appName={'DATIM Mechanism Finder'} />, document.getElementById('root'));
 }).catch(e=>{
     render(<NetworkError/>, document.getElementById('root'));
 });
