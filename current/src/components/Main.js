@@ -78,10 +78,9 @@ class Main extends React.Component {
 		this.retrieveData();
 	}
 
-	setMinHeight(renderedHeight, margin) {
-		if (renderedHeight > this.state.cardHeight) {
-			renderedHeight += margin; //add back margin
-			this.setState({cardHeight: renderedHeight})
+	setMinHeight(newHeight) {
+		if (newHeight > this.state.cardHeight) {
+			this.setState({cardHeight: newHeight})
 		}
 	}
 

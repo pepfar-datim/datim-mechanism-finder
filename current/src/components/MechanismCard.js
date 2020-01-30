@@ -17,11 +17,19 @@ class MechanismCard extends React.Component {
 		};
 	}
 
-	componentDidMount() {
+	setHeight() {
 	    var height = this.divElement.clientHeight;
 	    var margin = 2 * parseInt(theme.spacing.spacing.replace('px',''));
 	    height = height - margin;
-	    this.props.setMinHeight(height, margin)
+	    this.props.setMinHeight(height);		
+	}
+
+	componentDidMount() {
+		this.setHeight();
+	}
+
+	componentDidUpdate() {
+		this.setHeight();
 	}
 
 	render() {
