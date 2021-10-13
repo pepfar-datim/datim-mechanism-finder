@@ -8,11 +8,10 @@
   },
   "appType": "APP",
   "name": "Mechanism Finder",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "description": "DATIM application to find a mechanism",
   "developer": {
-    "name": "Thomas Zemp",
-    "email": "tzemp@baosystems.com"
+    "name": "PEPFAR"
   },
   "icons": {
     "48": "icon.png"
