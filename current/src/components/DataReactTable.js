@@ -15,7 +15,7 @@ function getData(array) {
 }
 
 function organizeColumns(columnRow, dataRow) {
-	var idealOrder = ["Date","OU","OU Country Code","FY","Reporting Cycle","HQ ID","IM","Agency","Award Number","Partner Name","Partner DUNS","Start Date","End Date","Active","Partner Country","Indigenous Partner","Organization Type","Legacy ID","Legacy Partner Name","Legacy Partner ID","Legacy Partner Organization Type ID"];
+	var idealOrder = ["Date","OU","OU Country Code","FY","Reporting Cycle","HQ ID","IM","Agency","Award Number","Partner Name","Partner DUNS","Start Date","End Date","Active","Partner Country","Indigenous Partner","Organization Type","Legacy ID","Legacy Partner Name","Legacy Partner ID","Legacy Partner Organization Type ID", "Partner UEI"];
 
 	//first harmonize length between columns and data (if necessary)
 	for (let i = columnRow.length; i <= Object.keys(dataRow).length; i++) {
