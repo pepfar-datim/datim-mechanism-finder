@@ -12,7 +12,7 @@ const rowStyling = {
 
 const codeNames = {
 	Mechanism: 'mech ID',
-	Partner: 'code',
+	Partner: 'partner code',
 	Agency: 'code',
 }
 
