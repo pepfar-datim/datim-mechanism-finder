@@ -8,7 +8,7 @@
   },
   "appType": "APP",
   "name": "Mechanism Finder",
-  "version": "3.2.2",
+  "version": "3.2.3",
   "description": "DATIM application to find a mechanism",
   "developer": {
     "name": "PEPFAR"
