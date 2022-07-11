@@ -1,6 +1,6 @@
 {
   "name": "datim-mechanism-finder",
-  "version": "33.3.2",
+  "version": "3.2.3",
   "private": true,
   "dependencies": {
     "@dhis2/app-runtime": "^2.0.4",
